@@ -15,7 +15,7 @@
 - Size: `site/index.html` is 17.5 KB in a single file. It has 0 `<script`, 0 `<link`/`@import`/`url(`, and links only to articles.
 - Layout: no sideways scroll at 320, 360, 390 or 1280px. Light and dark mode both work. Lowest text contrast in the table is 5.13:1.
 - Screenshots: `reports/window-e-390.png` and `reports/window-e-1280.png` (light mode).
-- Checks: new `scripts/check_page.py` passes. An independent audit passed 6 of 6 checks, and rebuilds are byte-identical.
+- Checks: new `scripts/check_page.py` passes. An independent audit passed every build check and found rebuilds byte-identical. Its on-target check failed on 1 of the 8 sample rows (first open issue).
 - Open issues:
   - Data: "Top tech stocks to watch this week" (Moneycontrol, sample CSV line 23) is in the table, but collect.py's relevance filter would drop it. Window A should fix this in the sample, or Window C should add a "stocks to watch" exclusion.
   - Data: "Prosus shares edge higher" gets past collect.py's price-move filter, because "edge" is not one of its verbs.
