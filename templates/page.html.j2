@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Prosus in the media — {{ span }}</title>
+<style>
+:root {
+  --bg: #ffffff; --fg: #1a1a1a; --muted: #5c5c5c; --card: #f4f5f7; --line: #d6d8dc;
+  --accent: #1f4fd1;
+  --positive: #2e7d32; --neutral: #767c86; --negative: #bf360c;
+  --neutral-text: #5f6570; --negative-text: #bf360c; --positive-text: #2e7d32;
+  --grid: #b4b8bf; --banner-bg: #fff3c4; --banner-fg: #4a3b00; --banner-line: #c9a400;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121417; --fg: #e9eaec; --muted: #a3a7ae; --card: #1d2025; --line: #3a3e45;
+    --accent: #8fb0ff;
+    --positive: #5cbf62; --neutral: #9aa0a8; --negative: #ff7a4d;
+    --neutral-text: #9aa0a8; --negative-text: #ff7a4d; --positive-text: #5cbf62;
+    --grid: #3a3e45; --banner-bg: #3a3000; --banner-fg: #ffe9a0; --banner-line: #b38f00;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+main, footer { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+h1 { font-size: 1.6rem; line-height: 1.25; margin: 28px 0 6px; }
+h2 { font-size: 1.2rem; margin: 36px 0 12px; }
+h3 { font-size: 1.05rem; margin: 22px 0 6px; }
+p { margin: 0 0 10px; }
+a { color: var(--accent); }
+.sub { color: var(--muted); margin: 0 0 20px; }
+.banner { background: var(--banner-bg); color: var(--banner-fg); border: 2px solid var(--banner-line); border-radius: 8px; padding: 10px 14px; margin: 0 0 20px; font-weight: 600; }
+.note { color: var(--muted); font-size: .85rem; margin: 10px 0 0; }
+.lead { margin: 0 0 8px; }
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 720px) { .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.tile { background: var(--card); border-radius: 10px; padding: 12px; min-width: 0; }
+.tile .k { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+.tile .v { font-size: 1.6rem; font-weight: 700; line-height: 1.2; margin: 4px 0; overflow-wrap: anywhere; }
+.tile .v.small { font-size: 1.15rem; }
+.tile .c { font-size: .82rem; color: var(--muted); }
+.split { font-size: .95rem; font-weight: 600; line-height: 1.35; margin: 4px 0; }
+.split span { display: block; }
+.charts { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 720px) { .charts { grid-template-columns: 1fr 1fr; } }
+figure { margin: 0; background: var(--card); border-radius: 10px; padding: 12px; min-width: 0; }
+figcaption { font-weight: 600; margin-bottom: 6px; }
+svg { display: block; width: 100%; height: auto; }
+svg.diagram { max-width: 560px; }
+svg text { fill: var(--fg); font-family: inherit; }
+svg .muted { fill: var(--muted); }
+svg .axis { stroke: var(--grid); stroke-width: 1; }
+svg .positive { fill: var(--positive); }
+svg .neutral { fill: var(--neutral); }
+svg .negative { fill: var(--negative); }
+svg .bar { fill: var(--accent); }
+svg .box { fill: var(--bg); stroke: var(--fg); stroke-width: 1.5; }
+svg .link { stroke: var(--muted); stroke-width: 1.5; fill: none; }
+svg .arrow { fill: var(--muted); }
+.brief { background: var(--card); border-radius: 10px; padding: 4px 16px 12px; }
+.brief h3 { margin-top: 16px; }
+footer { color: var(--fg); border-top: 1px solid var(--line); margin-top: 40px; padding-bottom: 40px; }
+footer h2 { font-size: 1.05rem; margin-top: 28px; }
+.status { color: var(--muted); margin: 4px 0; }
+ul.adds { margin: 0; padding-left: 20px; }
+.empty { color: var(--muted); padding: 20px 0; }
+</style>
+</head>
+<body>
+<main>
+<h1>Prosus in the media — {{ span }}</h1>
+<p class="sub">Public sources only, tagged by AI, reviewed by Jack Niu. Built for the AI Automation Intern application.</p>
+{% if sample_banner %}
+<p class="banner" role="note">Demo data: these {{ n_rows }} rows are synthetic, for layout only. Real coverage replaces them after the first run.</p>
+{% endif %}
+
+<section class="tiles" aria-label="Key numbers">
+  <div class="tile">
+    <div class="k">Articles found</div>
+    <div class="v">{{ n_prosus if n_prosus else "No articles" }}</div>
+    <div class="c">Prosus articles; peers counted separately</div>
+  </div>
+  <div class="tile">
+    <div class="k">Sentiment split</div>
+    {% if n_valid %}
+    <div class="split">
+      <span style="color: var(--positive-text)">{{ sent_pct.positive }}% positive</span>
+      <span style="color: var(--neutral-text)">{{ sent_pct.neutral }}% neutral</span>
+      <span style="color: var(--negative-text)">{{ sent_pct.negative }}% negative</span>
+    </div>
+    {% else %}
+    <div class="v small">No articles</div>
+    {% endif %}
+    <div class="c">Tone of Prosus coverage</div>
+  </div>
+  <div class="tile">
+    <div class="k">Share of voice</div>
+    <div class="v">{{ (sov ~ "%") if sov is not none else "No articles" }}</div>
+    <div class="c">Prosus share of all articles about Prosus, Delivery Hero and Zalando</div>
+  </div>
+  <div class="tile">
+    <div class="k">Top outlet</div>
+    {% if top_outlet %}
+    <div class="v small">{{ top_outlet.name }}</div>
+    <div class="c">Published the most Prosus articles ({{ top_outlet.count }})</div>
+    {% else %}
+    <div class="v small">No articles</div>
+    <div class="c">Publisher with the most Prosus articles</div>
+    {% endif %}
+  </div>
+</section>
+
+<h2>Coverage over time and by topic</h2>
+<div class="charts">
+  <figure>
+    <figcaption>Prosus articles per week, by tone</figcaption>
+    {% if weekly.empty %}
+    <p class="empty">No articles</p>
+    {% else %}
+    <svg viewBox="0 0 {{ weekly.W }} {{ weekly.H }}" role="img" aria-label="Prosus articles per week, stacked by sentiment">
+      {% for s in sentiments %}
+      <rect class="{{ s }}" x="{{ 44 + loop.index0 * 130 }}" y="10" width="18" height="18" rx="3"/>
+      <text x="{{ 68 + loop.index0 * 130 }}" y="28" font-size="22">{{ s | capitalize }}</text>
+      {% endfor %}
+      {% for t in weekly.ticks %}
+      <line class="axis" x1="{{ weekly.left }}" x2="{{ weekly.right }}" y1="{{ t.y }}" y2="{{ t.y }}"/>
+      <text class="muted" x="{{ weekly.left - 8 }}" y="{{ t.y + 7 }}" font-size="22" text-anchor="end">{{ t.v }}</text>
+      {% endfor %}
+      {% for b in weekly.bars %}
+      {% for seg in b.segs %}
+      <rect class="{{ seg.cls }}" x="{{ seg.x }}" y="{{ seg.y }}" width="{{ seg.w }}" height="{{ seg.h }}"><title>{{ seg.n }} {{ seg.cls }}</title></rect>
+      {% endfor %}
+      <text x="{{ b.cx }}" y="{{ b.ty }}" font-size="22" font-weight="600" text-anchor="middle">{{ b.total }}</text>
+      {% if loop.index0 % weekly.label_every == 0 %}
+      <text class="muted" x="{{ b.cx }}" y="{{ weekly.label_y }}" font-size="22" text-anchor="middle">{{ b.label }}</text>
+      {% endif %}
+      {% endfor %}
+      <text class="muted" x="{{ (weekly.left + weekly.right) / 2 }}" y="{{ weekly.H - 6 }}" font-size="22" text-anchor="middle">Week starting (Monday)</text>
+    </svg>
+    {% endif %}
+  </figure>
+  <figure>
+    <figcaption>What Prosus coverage is about</figcaption>
+    {% if topics.empty %}
+    <p class="empty">No articles</p>
+    {% else %}
+    <svg viewBox="0 0 {{ topics.W }} {{ topics.H }}" role="img" aria-label="Prosus articles by topic">
+      {% for r in topics.rows %}
+      <text x="{{ topics.label_w - 10 }}" y="{{ r.ty }}" font-size="22" text-anchor="end">{{ r.label }}</text>
+      {% if r.w > 0 %}<rect class="bar" x="{{ topics.label_w }}" y="{{ r.y + 6 }}" width="{{ r.w }}" height="{{ topics.bar_h }}" rx="3"/>{% endif %}
+      <text x="{{ r.cx }}" y="{{ r.ty }}" font-size="22" font-weight="600">{{ r.count }}</text>
+      {% endfor %}
+    </svg>
+    {% endif %}
+  </figure>
+</div>
+{% if n_excluded %}
+<p class="note">{{ n_excluded }} of {{ n_prosus }} Prosus rows excluded from charts: missing or unrecognised sentiment, topic or date.</p>
+{% endif %}
+
+<h2>This week's brief</h2>
+<section class="brief">
+{% if brief_placeholder %}
+<p class="note">Placeholder items — Jack writes the real brief after reviewing the week.</p>
+{% endif %}
+{{ brief_html }}
+</section>
+</main>
+
+<footer>
+  <h2>How this page is made</h2>
+  <svg class="diagram" viewBox="0 0 500 140" role="img" aria-label="Pipeline: Collect, Tag, Review, Page">
+    {% set steps = [("Collect", "RSS +|Google News"), ("Tag", "Claude|classifies"), ("Review", "Human|spot-checks|tags"), ("Page", "Static|HTML")] %}
+    {% for name, cap in steps %}
+    {% set x = 14 + loop.index0 * 124 %}
+    <rect class="box" x="{{ x }}" y="10" width="100" height="44" rx="8"/>
+    <text x="{{ x + 50 }}" y="38" font-size="17" font-weight="600" text-anchor="middle">{{ name }}</text>
+    {% for line in cap.split("|") %}
+    <text class="muted" x="{{ x + 50 }}" y="{{ 78 + loop.index0 * 21 }}" font-size="17" text-anchor="middle">{{ line }}</text>
+    {% endfor %}
+    {% if not loop.last %}
+    <line class="link" x1="{{ x + 102 }}" y1="32" x2="{{ x + 116 }}" y2="32"/>
+    <polygon class="arrow" points="{{ x + 122 }},32 {{ x + 115 }},27 {{ x + 115 }},37"/>
+    {% endif %}
+    {% endfor %}
+  </svg>
+
+  <p class="status">{{ accuracy }}</p>
+  <p class="status">{{ cost }}</p>
+
+  <h2>What a paid media-monitoring licence (Meltwater, Cision) adds</h2>
+  <ul class="adds">
+    <li>Paywalled press</li>
+    <li>Print</li>
+    <li>Broadcast</li>
+    <li>Audience figures</li>
+    <li>Journalist database</li>
+  </ul>
+
+  <h2>Proposed contact database (CRM)</h2>
+  <p class="lead">How flagged coverage would feed a contact database (CRM)</p>
+  <svg class="diagram" viewBox="0 0 480 300" role="img" aria-label="Contact database: Contact works at Organisation; Interaction is with Contact; Interaction is at Event; Organisation is active in Topic area; Event is about Topic area">
+    <line class="link" x1="134" y1="32" x2="333" y2="32"/>
+    <polygon class="arrow" points="345,32 333,26 333,38"/>
+    <text class="muted" x="240" y="24" font-size="17" text-anchor="middle">works at</text>
+    <line class="link" x1="72" y1="236" x2="72" y2="66"/>
+    <polygon class="arrow" points="72,54 66,66 78,66"/>
+    <text class="muted" x="80" y="150" font-size="17">is with</text>
+    <line class="link" x1="134" y1="258" x2="333" y2="258"/>
+    <polygon class="arrow" points="345,258 333,252 333,264"/>
+    <text class="muted" x="240" y="250" font-size="17" text-anchor="middle">is at</text>
+    <line class="link" x1="408" y1="54" x2="408" y2="111"/>
+    <polygon class="arrow" points="408,123 402,111 414,111"/>
+    <text class="muted" x="400" y="94" font-size="17" text-anchor="end">active in</text>
+    <line class="link" x1="408" y1="236" x2="408" y2="179"/>
+    <polygon class="arrow" points="408,167 402,179 414,179"/>
+    <text class="muted" x="400" y="206" font-size="17" text-anchor="end">is about</text>
+    {% for name, x, y in [("Contact", 10, 10), ("Organisation", 346, 10), ("Topic area", 346, 123), ("Interaction", 10, 236), ("Event", 346, 236)] %}
+    <rect class="box" x="{{ x }}" y="{{ y }}" width="124" height="44" rx="8"/>
+    <text x="{{ x + 62 }}" y="{{ y + 28 }}" font-size="17" font-weight="600" text-anchor="middle">{{ name }}</text>
+    {% endfor %}
+  </svg>
+
+  <p><a href="#">Source code (link added on publish)</a></p>
+</footer>
+</body>
+</html>
