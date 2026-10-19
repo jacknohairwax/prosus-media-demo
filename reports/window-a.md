@@ -1,0 +1,12 @@
+# Window A report: collect + classify (2026-10-19)
+- Built: collect.py (Google News RSS en+nl per company, last 30 days, dedup, relevance filter, ticker/quote-page/sponsor exclusions, outlet aliasing, rule-based tiers), classify.py (claude-sonnet-5-5, JSON-schema output, 10 per call, retries, caps 250/150/150, idempotent, stops at USD 8 cumulative), run.sh, eval/eval_template.csv + eval/score.py. feeds.yaml/queries.yaml are minimal test versions; Window C's replace them. Added pyyaml (to read the yaml files).
+- data/articles.csv: 171 rows, 2026-09-20..2026-10-19. Per company: prosus 77, peer_zalando 54, peer_deliveryhero 40. Prosus is under the 100-row target: only one query term ("Prosus") until C's queries land.
+- Per source: googlenews_en_prosus 51, googlenews_nl_prosus 26, googlenews_en_peer_zalando 44, googlenews_nl_peer_zalando 10, googlenews_en_peer_deliveryhero 39, googlenews_nl_peer_deliveryhero 1.
+- Tiers: tier1 7, tier2 30, tier3 134. Flags only on Prosus rows: opportunity 26, issue 1.
+- Dropped before classifying (from 372 raw): price tickers 91, off-topic titles 68, blocked outlets 24, quote/data pages and notices ~20, duplicates 5.
+- Tokens and USD: 104,384 in / 19,579 out, USD 0.4045 cumulative (runs/log.csv, 9 rows). Cap USD 15, stop at 8 never reached.
+- Feeds that returned nothing: none. Thin: googlenews_nl Delivery Hero (7 items, 1 kept). Prosus newsroom skipped (collect_prosus_newsroom.py not present yet).
+- Accuracy script: eval/score.py works; on the empty template it prints "n labelled: 0 of 50"; on a planted test it scored exactly as expected. Waiting for Jack's 50 labels.
+- Independent audit sample (40 rows, before cleaning): topic 39/40, sentiment 40/40, flag 38/40 agreement.
+- Limits: Google News summaries are the headline only (checked 91/91 entries), so summary is blank and tags rest on titles. All urls are news.google.com redirects.
+- Unverified: run.sh end to end (fails at build_page.py until Window B merges); residual junk after the last filter round (title regex check shows 0 quote/forecast/WpHG/Simply Wall St titles, no hand review); behaviour with C's real queries.yaml and rss-type feeds.

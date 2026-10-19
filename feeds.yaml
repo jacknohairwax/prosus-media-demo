@@ -1,0 +1,23 @@
+# feeds.yaml -- MINIMAL TEST VERSION (window A). Window C verifies and replaces this file.
+#
+# Each entry: name, url, type (rss|googlenews), language, outlet_tier, verified, last_checked.
+# type googlenews: url is a template; {query} is replaced by the URL-encoded query from
+#   queries.yaml, and the row's source becomes <name>_<company>, e.g. googlenews_en_prosus.
+# type rss: url is fetched as-is; items are kept when the title or summary contains a
+#   company term; source = name.
+# outlet_tier here is a fallback only; collect.py assigns the tier per item by outlet name.
+feeds:
+  - name: googlenews_en
+    url: "https://news.google.com/rss/search?q={query}&hl=en&gl=NL&ceid=NL:en"
+    type: googlenews
+    language: en
+    outlet_tier: tier3
+    verified: no
+    last_checked: ""
+  - name: googlenews_nl
+    url: "https://news.google.com/rss/search?q={query}&hl=nl&gl=NL&ceid=NL:nl"
+    type: googlenews
+    language: nl
+    outlet_tier: tier3
+    verified: no
+    last_checked: ""

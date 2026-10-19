@@ -1,0 +1,16 @@
+# queries.yaml -- MINIMAL TEST VERSION (window A). Window C replaces this file.
+#
+# Structure read by collect.py:
+#   companies:
+#     <company key>:            # must be prosus | peer_deliveryhero | peer_zalando (schema values)
+#       terms: [..]             # each term becomes one Google News query per language
+#       topics: {topic: [..]}   # optional; each phrase becomes an extra query for that company
+#   exclusions: [..]            # optional; items whose title contains one of these are dropped
+# Extra keys (executives, peers, notes, ...) are ignored unless collect.py knows them.
+companies:
+  prosus:
+    terms: ["Prosus"]
+  peer_deliveryhero:
+    terms: ["Delivery Hero"]
+  peer_zalando:
+    terms: ["Zalando"]
