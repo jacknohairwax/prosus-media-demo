@@ -1,0 +1,177 @@
+# queries.yaml -- Google News search terms for collect.py (window C, tested 2026-10-19)
+#
+# Each phrase:
+#   id    short slug; feed name = gn_<edition>_<group>_<key>_<id>  (see feeds.yaml, section googlenews)
+#   q     exact Google News query; collect.py appends googlenews.window_suffix, then URL-encodes
+#   lang  language of the phrase: en | nl | any (names). Every phrase is requested in BOTH editions.
+#
+# Query syntax (tested): "..." exact phrase; intitle:X = X must be in the headline.
+# Topic phrases use `intitle:Prosus intitle:<keyword>`: plain `Prosus <keyword>` matched article
+# bodies and returned 55-100% off-topic items (market wraps, unrelated AI news); see feeds.yaml, section googlenews.
+# Broad recall comes from prosus.core; topic phrases add precise items beyond the ~100-item cap.
+
+googlenews:
+  base_url: https://news.google.com/rss/search
+  editions:
+    # The brief's English edition (hl=en&gl=NL&ceid=NL:en) does not exist: Google redirects it to
+    # hl=en-US&gl=US&ceid=US:en (106/106 requests). en-US vs en-GB, 2026-10-19, 30-day items after
+    # exclusions, deduped: Prosus 58 vs 57, "Fabricio Bloisi" 12 vs 12, "Delivery Hero" 55 vs 49,
+    # Zalando 52 vs 50, intitle:Prosus intitle:AI 12 vs 12; total US 189, GB 180, union 194.
+    # US >= GB on every phrase and the union adds 3% over US (< 25%), so one edition: en-US.
+    en: {hl: en-US, gl: US, ceid: "US:en"}
+    nl: {hl: nl, gl: NL, ceid: "NL:nl"}
+  window_suffix: " when:30d"      # without it Google ranks by relevance and most items are older than 30 days
+  max_items_per_query: 100        # Google News RSS returns at most 100 items per request
+  min_seconds_between_requests: 3 # ~500 requests in 20 min at 1.5 s triggered a Google "unusual traffic" 503 block
+
+prosus:
+  core:
+    - {id: prosus, q: 'Prosus', lang: any}
+    - {id: prosus_nv, q: '"Prosus N.V."', lang: any}
+    - {id: naspers_prosus, q: 'intitle:Naspers intitle:Prosus', lang: any}   # Naspers only together with Prosus
+  # Recall phrases: body match, so they return Prosus items the core query misses (+45 on-Prosus items
+  # in the 30-day test). Judged on "is it about Prosus" (<=20% not-Prosus after exclusions), not on topic;
+  # classify.py assigns the topic. Rows from these get entity=company, topic left to the classifier.
+  recall:
+    - {id: india, q: 'Prosus India', lang: en}
+    - {id: artificial_intelligence, q: 'Prosus "artificial intelligence"', lang: en}
+    - {id: ai, q: 'Prosus AI', lang: any}
+    - {id: ifood, q: 'Prosus iFood', lang: any}
+    - {id: prosus_ventures, q: '"Prosus Ventures"', lang: any}
+    - {id: board, q: 'Prosus board', lang: en}
+    - {id: shareholders, q: 'Prosus shareholders', lang: en}
+    - {id: investment, q: 'Prosus investment', lang: en}
+    - {id: tencent_aandelen, q: 'Prosus Tencent aandelen', lang: nl}
+    - {id: aandeelhouders, q: 'Prosus aandeelhouders', lang: nl}
+
+executives:                       # key = `entity` value in data/articles.csv
+  bloisi:
+    name: Fabricio Bloisi
+    role: Group Chief Executive Officer
+    role_source: https://www.prosus.com/leadership
+    queries:
+      - {id: name, q: '"Fabricio Bloisi"', lang: any}
+      - {id: prosus, q: 'Bloisi Prosus', lang: any}
+  sgourdos:
+    name: Basil Sgourdos
+    role: 'former CFO; Nico Marais CFO (interim from Dec 2024, appointed 29 Apr 2025)'
+    role_source: https://www.prosus.com/leadership
+    queries:                      # anchored to Prosus/Naspers because he has left
+      - {id: prosus, q: '"Basil Sgourdos" Prosus', lang: any}
+      - {id: naspers, q: '"Basil Sgourdos" Naspers', lang: any}
+  kolek:
+    name: Patrick Kolek
+    role: former Group COO Naspers and Prosus (Jul 2016 - Mar 2023), then senior advisor; now CEO Boats Group
+    role_source: https://people.equilar.com/bio/person/pat-kolek-boats-group/13126384
+    queries:                      # anchored: the bare name returns Boats Group news
+      - {id: prosus, q: '"Patrick Kolek" Prosus', lang: any}
+      - {id: naspers, q: '"Patrick Kolek" Naspers', lang: any}
+  beinat:
+    name: Euro Beinat
+    role: Global Head AI and Data Science (named chief AI officer in Sept 2026 news)
+    role_source: https://www.prosus.com/leadership
+    queries:
+      - {id: name, q: '"Euro Beinat"', lang: any}
+
+topics:                           # keys = `topic` values in data/articles.csv
+  results:
+    - {id: results, q: 'intitle:Prosus intitle:results', lang: en}
+    - {id: earnings, q: 'intitle:Prosus intitle:earnings', lang: en}
+    - {id: profit, q: 'intitle:Prosus intitle:profit', lang: en}
+    - {id: buyback, q: 'intitle:Prosus intitle:buyback', lang: en}
+    - {id: resultaten, q: 'intitle:Prosus intitle:resultaten', lang: nl}
+    - {id: winst, q: 'intitle:Prosus intitle:winst', lang: nl}
+    - {id: jaarcijfers, q: 'intitle:Prosus intitle:jaarcijfers', lang: nl}
+  tencent_stake:
+    - {id: tencent, q: 'intitle:Prosus intitle:Tencent', lang: en}
+    - {id: tencent_stake, q: 'intitle:Prosus intitle:"Tencent stake"', lang: en}
+    - {id: tencent_shares, q: 'intitle:Prosus intitle:"Tencent shares"', lang: en}
+    - {id: tencent_belang, q: 'intitle:Prosus intitle:Tencent-belang', lang: nl}
+    - {id: tencent_aandelen, q: 'intitle:Prosus intitle:Tencent-aandelen', lang: nl}
+  ai:
+    - {id: ai, q: 'intitle:Prosus intitle:AI', lang: en}
+    - {id: toqan, q: 'intitle:Prosus intitle:Toqan', lang: en}
+    - {id: ai_house, q: 'intitle:Prosus intitle:"AI House"', lang: en}
+    - {id: agents, q: 'intitle:Prosus intitle:agents', lang: en}
+    - {id: luminate, q: 'intitle:Prosus intitle:Luminate', lang: en}
+    - {id: kunstmatige_intelligentie, q: 'intitle:Prosus intitle:"kunstmatige intelligentie"', lang: nl}
+    - {id: ai_agents_nl, q: 'intitle:Prosus intitle:AI-agents', lang: nl}
+  jet_integration:
+    - {id: jet, q: 'intitle:Prosus intitle:"Just Eat Takeaway"', lang: en}
+    - {id: jet_brand, q: 'intitle:"Just Eat Takeaway" Prosus', lang: en}
+    - {id: just_eat, q: 'intitle:Prosus intitle:"Just Eat"', lang: en}
+    - {id: jet_short, q: 'intitle:Prosus intitle:JET', lang: en}
+    - {id: thuisbezorgd, q: 'intitle:Prosus intitle:Thuisbezorgd', lang: nl}
+  ventures_investments:
+    - {id: prosus_ventures, q: 'intitle:"Prosus Ventures"', lang: en}
+    - {id: india, q: 'intitle:Prosus intitle:India', lang: en}
+    - {id: latam, q: 'intitle:Prosus intitle:LatAm', lang: en}
+    - {id: ifood, q: 'intitle:Prosus intitle:iFood', lang: en}
+    - {id: investment, q: 'intitle:Prosus intitle:investment', lang: en}
+    - {id: investeert, q: 'intitle:Prosus intitle:investeert', lang: nl}
+    - {id: investering, q: 'intitle:Prosus intitle:investering', lang: nl}
+  governance_regulation:
+    - {id: european_commission, q: 'intitle:Prosus intitle:"European Commission"', lang: en}
+    - {id: antitrust, q: 'intitle:Prosus intitle:antitrust', lang: en}
+    - {id: shareholders, q: 'intitle:Prosus intitle:shareholders', lang: en}
+    - {id: board, q: 'intitle:Prosus intitle:board', lang: en}
+    - {id: europese_commissie, q: 'intitle:Prosus intitle:"Europese Commissie"', lang: nl}
+    - {id: aandeelhouders, q: 'intitle:Prosus intitle:aandeelhouders', lang: nl}
+    - {id: toezichthouder, q: 'intitle:Prosus intitle:toezichthouder', lang: nl}
+
+# Drop a row when `pattern` (Python regex) matches the title. Google News titles end in " - <Source>",
+# and the feed summary repeats the title, so title matching covers title+summary.
+# `unless`: keep the row anyway if the title also names the company (company_names below).
+company_names:
+  prosus: '(?i)(Prosus|Naspers)'
+  peer_deliveryhero: '(?i)Delivery Hero'
+  peer_zalando: '(?i)Zalando'
+exclusions:
+  - id: job_ads
+    pattern: '(?i)\b(vacature|vacancy|vacancies|job opening|now hiring|we.re hiring|careers at|jobs at)\b'
+    reason: job ads
+  - id: auto_stock_ticks
+    pattern: '(?i)- (ad-hoc-news\.de|AD HOC NEWS)$'
+    reason: auto-generated stock-tick pieces (29 Prosus, 43 Delivery Hero, 35 Zalando in 30 days); real news on the same events comes from other outlets
+  - id: stock_tip_sites
+    pattern: '(?i)- (Simply Wall St(reet)?|Traders Union|GuruFocus|Stocktwits|Capital\.com|Admirals|TIKR\.com|Benzinga)$'
+    reason: stock-tip and valuation spam
+  - id: forecast_spam
+    pattern: '(?i)(stock forecast|price prediction|koersverwachting|analyst predictions)'
+    reason: stock-tip spam
+  - id: quote_pages
+    pattern: '(?i)(stock price, news, quote|income statement|valuation measures|analyst ratings, estimates|stock holders - institutional|interactive stock chart|company profile & facts|options chain|stock forum & discussion|stock major holders)'
+    reason: quote and directory pages, not news
+  - id: ticker_valuation
+    pattern: '\((ENXTAM|XTRA|OTCMKTS|JSE|CEUX):[A-Z0-9.]+\)'
+    reason: ticker-tagged valuation write-ups (mostly Simply Wall St syndicated via Yahoo); stock-tip spam
+  - id: directories
+    pattern: '(?i)(funding rounds & list of investors|- Tracxn$|venture capital funds in)'
+    reason: investor directory pages
+  - id: live_scores
+    pattern: '(?i)(live score|- Sofascore$)'
+    reason: esports scores matched "Prosus results"
+  - id: sponsorship_sport
+    pattern: '(?i)(ZALANDO ARRIVAL MOMENT|Royal Belgian FA$|Red Flames|Rode Duivel)'
+    reason: Zalando football sponsorship posts, not company news
+  - id: shopping_giveaways
+    pattern: '(?i)(kortingscode|discount code|promo code|^win |smart shopping day|webwinkels|hardloopitems)'
+    reason: consumer shopping and giveaway content matching "Zalando"
+  - id: market_wrap_no_name
+    pattern: '(?i)\b(AEX|Damrak|Beursupdate|Bel20|Europese beurzen|Aziatische beurzen|Dow Jones|DAX|JSE|Wall Street)\b'
+    unless: company_name
+    reason: market wrap whose headline does not name the company
+
+peers:
+  peer_deliveryhero:
+    name: Delivery Hero
+    queries:
+      - {id: name, q: '"Delivery Hero"', lang: any}
+      - {id: title, q: 'intitle:"Delivery Hero"', lang: any}
+      - {id: results, q: 'intitle:"Delivery Hero" intitle:results', lang: en}
+  peer_zalando:
+    name: Zalando
+    queries:
+      - {id: name, q: 'Zalando', lang: any}
+      - {id: title, q: 'intitle:Zalando', lang: any}
+      - {id: results, q: 'intitle:Zalando intitle:results', lang: en}

@@ -1,0 +1,18 @@
+# Window C report: queries and feeds (2026-10-19)
+- Built: `queries.yaml` (3 core + 10 recall Prosus phrases; 4 executives; 6 topics with 5-7 phrases each, en + nl; 11 exclusions with reasons; 2 peers with 3 phrases each) and `feeds.yaml` (8 rss + 128 googlenews = 64 phrases x 2 editions). No `collect_prosus_newsroom.py`: prosus.com has RSS.
+- **Brief URL correction:** `hl=en&gl=NL&ceid=NL:en` is not a real edition (Google 302s it to en-US). Use `hl=en-US&gl=US&ceid=US:en`: on 5 test phrases, US 189 vs GB 180 rows, and combining both adds 3%. Dutch `hl=nl&gl=NL&ceid=NL:nl` is correct. Append ` when:30d` to q: without it, 30-day rows for "Prosus" (en) drop from 91 to 18.
+- **RSS verified 6/8:** Prosus newsroom (`prosus.com/rss` -> /rss/group-updates, titles + dates only, no summary), FD (paywalled), NRC (paywalled), NU.nl Economie, Silicon Canals (newest item 2026-09-22), Economic Times tech. **Failed:** Reuters (401; covered via Google News), Techleap (404, no feed found). None of the press feeds had a Prosus mention in 30 days; NU.nl and ET hold only 3-4 days of items, so they must be polled daily.
+- **Google News:** all 128 return HTTP 200. 59 had at least one item in the last 30 days, 69 had none (results, tencent_stake and governance had no news this window; they are kept for the November interims). 6 are `use: no` (>20% off-target). Live re-audit: counts drift <=1.1% on 6 feeds.
+- **Estimated unique rows/day** (en + nl, use:yes, after exclusions, deduped; 30-day count / 30): Prosus 4.4 (3.8 on-target), Delivery Hero 1.3, Zalando 2.2. Four peer feeds hit Google's 100-item cap, so peer figures are lower bounds.
+- **False positives and fixes:**
+  - "Prosus results" (en): 15/15 esports scores. Fix: `live_scores` exclusion and `intitle:` form.
+  - Prosus AI / Tencent / board / investment (en): 53/64, 28/29, 17/18 and 32/58 off-topic. Fix: `intitle:Prosus intitle:<kw>` form.
+  - Prosus (nl): 16/44 market wraps. Fix: `market_wrap_no_name` exclusion.
+  - Delivery Hero (en and nl): mostly Uber/ezCater news. Fix: `use: no`; `intitle:` variant added.
+  - Zalando (nl): 27/37 football sponsorship and shopping. Fix: `sponsorship_sport` and `shopping_giveaways` exclusions, `use: no`.
+  - Stock-tick and tip spam (ad-hoc-news, Simply Wall St, Yahoo quote pages): dropped by `auto_stock_ticks`, `stock_tip_sites`, `ticker_valuation` and `quote_pages`.
+- **Known exclusion misses:** 2 of 85 dropped titles were real ("S&P Global revises Prosus outlook to positive" via ad-hoc-news; a Seeking Alpha Naspers opinion piece).
+- **Brief corrections:** Sgourdos is no longer CFO (prosus.com/leadership lists Nico Marais). Kolek left the Group COO role in 2023, so his queries return 0. Both are kept, anchored to Prosus.
+- **For window A:** Google blocked this machine for 1-6 h after ~520 requests at 1.5 s spacing, so keep >=3 s between requests (daily run ~122 requests, ~6 min). `outlet_tier`/`paywalled` are `mixed` on Google News entries; set them per article from the outlet name.
+- **Unverified:** false-positive labels are one pass of my own headline judgement; nl feeds were not re-fetched after the fix (counts from earlier the same day); feeds with no items in 30 days were not tested on a longer window.
+- Models: Opus 5.5 builders x3, Opus 5.5 auditors x2; no API spend (no classification in this window).
