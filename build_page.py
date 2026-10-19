@@ -1,22 +1,18 @@
-"""Render site/index.html from the tagged articles CSV and brief.md.
+"""Render site/index.html from the tagged articles CSV.
 
 Input order: data/articles.csv, else data/sample_articles.csv (override with --data).
 Runtime deps: stdlib, pandas, jinja2.
 """
 import argparse
 import datetime as dt
-import html
-import re
 import sys
 from pathlib import Path
 
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from markupsafe import Markup
 
 ROOT = Path(__file__).resolve().parent
 DATA_CANDIDATES = [ROOT / "data" / "articles.csv", ROOT / "data" / "sample_articles.csv"]
-BRIEF_PATH = ROOT / "brief.md"
 EVAL_CANDIDATES = [ROOT / "eval" / "score_output.txt", ROOT / "eval" / "score.txt",
                    ROOT / "eval" / "scores.txt", ROOT / "eval" / "accuracy.txt"]
 RUN_LOG = ROOT / "runs" / "log.csv"
@@ -115,6 +111,7 @@ def compute(df):
         "top_outlet": top_outlet,
         "weekly": weekly_chart(ok),
         "topics": topic_chart(ok),
+        "latest": latest_rows(ok),
     }
 
 
@@ -183,77 +180,14 @@ def topic_chart(prosus):
             "bar_h": row_h - 12, "rows": rows, "empty": len(prosus) == 0}
 
 
-# ---------- brief.md: tiny markdown subset ----------
+# ---------- latest coverage table ----------
 
-INLINE_LINK = re.compile(r"\[([^\]]+)\]\(([^)\s]+)\)")
-INLINE_BOLD = re.compile(r"\*\*(.+?)\*\*")
-
-
-def inline(text):
-    out, pos = [], 0
-    for m in INLINE_LINK.finditer(text):
-        out.append(bold(html.escape(text[pos:m.start()])))
-        href = m.group(2)
-        if not re.match(r"^(https?://|#|/|\./|[\w-]+\.html?$)", href):
-            href = "#"
-        out.append(f'<a href="{html.escape(href, quote=True)}">{bold(html.escape(m.group(1)))}</a>')
-        pos = m.end()
-    out.append(bold(html.escape(text[pos:])))
-    return "".join(out)
-
-
-def bold(escaped):
-    return INLINE_BOLD.sub(r"<strong>\1</strong>", escaped)
-
-
-def render_md(md):
-    """Headings (#..####), paragraphs, - / * / 1. lists, **bold**, [links](href).
-    A top-level '# ' heading is dropped: the page supplies the section title."""
-    lines = md.splitlines()
-    out, para, list_tag = [], [], None
-
-    def flush_para():
-        if para:
-            out.append(f"<p>{inline(' '.join(para))}</p>")
-            para.clear()
-
-    def close_list():
-        nonlocal list_tag
-        if list_tag:
-            out.append(f"</{list_tag}>")
-            list_tag = None
-
-    for raw in lines:
-        line = raw.strip()
-        if not line:
-            flush_para(); close_list(); continue
-        h = re.match(r"^(#{1,4})\s+(.*)$", line)
-        ul = re.match(r"^[-*]\s+(.*)$", line)
-        ol = re.match(r"^\d+[.)]\s+(.*)$", line)
-        if h:
-            flush_para(); close_list()
-            level = len(h.group(1))
-            if level == 1:
-                continue
-            out.append(f"<h{level + 1}>{inline(h.group(2))}</h{level + 1}>")
-        elif ul or ol:
-            flush_para()
-            tag = "ul" if ul else "ol"
-            if list_tag != tag:
-                close_list(); out.append(f"<{tag}>"); list_tag = tag
-            out.append(f"<li>{inline((ul or ol).group(1))}</li>")
-        else:
-            close_list(); para.append(line)
-    flush_para(); close_list()
-    return "\n".join(out)
-
-
-def load_brief():
-    """Returns (html, is_placeholder). Never creates brief.md."""
-    if not BRIEF_PATH.exists():
-        return "<p>Brief pending.</p>", False
-    md = BRIEF_PATH.read_text(encoding="utf-8")
-    return render_md(md), "[Placeholder]" in md
+def latest_rows(prosus, n=8):
+    """Most recent valid Prosus rows: published desc, then id asc for a stable order."""
+    p = prosus.sort_values("id").sort_values("published_dt", ascending=False, kind="stable").head(n)
+    return [{"date": fmt_day(r.published_dt), "iso": r.published_dt.strftime("%Y-%m-%d"),
+             "outlet": r.outlet, "title": r.title, "url": r.url, "sentiment": r.sentiment}
+            for r in p.itertuples()]
 
 
 # ---------- footer lines ----------
@@ -292,13 +226,10 @@ def main():
     data_path = pick_data(args.data)
     df = load(data_path)
     ctx = compute(df)
-    brief_html, brief_placeholder = load_brief()
     ctx.update(
         sample_banner=(data_path.name == "sample_articles.csv"
                        or ("summary" in df and bool(df["summary"].str.startswith("SYNTHETIC SAMPLE").any()))),
         n_rows=len(df),
-        brief_html=Markup(brief_html),
-        brief_placeholder=brief_placeholder,
         accuracy=accuracy_line(),
         cost=cost_line(dt.date.today()),
         sentiments=SENTIMENTS,

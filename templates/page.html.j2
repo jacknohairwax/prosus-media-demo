@@ -31,13 +31,11 @@ body {
 main, footer { max-width: 960px; margin: 0 auto; padding: 0 16px; }
 h1 { font-size: 1.6rem; line-height: 1.25; margin: 28px 0 6px; }
 h2 { font-size: 1.2rem; margin: 36px 0 12px; }
-h3 { font-size: 1.05rem; margin: 22px 0 6px; }
 p { margin: 0 0 10px; }
 a { color: var(--accent); }
 .sub { color: var(--muted); margin: 0 0 20px; }
 .banner { background: var(--banner-bg); color: var(--banner-fg); border: 2px solid var(--banner-line); border-radius: 8px; padding: 10px 14px; margin: 0 0 20px; font-weight: 600; }
 .note { color: var(--muted); font-size: .85rem; margin: 10px 0 0; }
-.lead { margin: 0 0 8px; }
 .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 @media (min-width: 720px) { .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .tile { background: var(--card); border-radius: 10px; padding: 12px; min-width: 0; }
@@ -63,8 +61,24 @@ svg .bar { fill: var(--accent); }
 svg .box { fill: var(--bg); stroke: var(--fg); stroke-width: 1.5; }
 svg .link { stroke: var(--muted); stroke-width: 1.5; fill: none; }
 svg .arrow { fill: var(--muted); }
-.brief { background: var(--card); border-radius: 10px; padding: 4px 16px 12px; }
-.brief h3 { margin-top: 16px; }
+.latest { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: .92rem; }
+.latest th, .latest td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.latest th { font-size: .78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+.latest .d { width: 4.6rem; white-space: nowrap; }
+.latest .o { width: 11rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.latest .s { width: 6.6rem; white-space: nowrap; }
+.latest .h a, .latest .o2 { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.latest .o2 { display: none; color: var(--muted); font-size: .8rem; }
+.sent::before { content: ""; display: inline-block; width: .7em; height: .7em; border-radius: 2px; margin-right: .35em; background: currentColor; }
+.sent.positive { color: var(--positive-text); }
+.sent.neutral { color: var(--neutral-text); }
+.sent.negative { color: var(--negative-text); }
+@media (max-width: 599px) {
+  .latest .o, .latest .s { display: none; }
+  .latest .o2 { display: block; }
+  .latest .d { width: 3.7rem; }
+  .latest th, .latest td { padding: 8px 4px; }
+}
 footer { color: var(--fg); border-top: 1px solid var(--line); margin-top: 40px; padding-bottom: 40px; }
 footer h2 { font-size: 1.05rem; margin-top: 28px; }
 .status { color: var(--muted); margin: 4px 0; }
@@ -164,13 +178,27 @@ ul.adds { margin: 0; padding-left: 20px; }
 <p class="note">{{ n_excluded }} of {{ n_prosus }} Prosus rows excluded from charts: missing or unrecognised sentiment, topic or date.</p>
 {% endif %}
 
-<h2>This week's brief</h2>
-<section class="brief">
-{% if brief_placeholder %}
-<p class="note">Placeholder items — Jack writes the real brief after reviewing the week.</p>
+<h2>Latest Prosus coverage</h2>
+{% if latest %}
+<table class="latest">
+  <thead>
+    <tr><th class="d" scope="col">Date</th><th class="o" scope="col">Outlet</th><th class="h" scope="col">Headline</th><th class="s" scope="col">Sentiment</th></tr>
+  </thead>
+  <tbody>
+    {% for r in latest %}
+    <tr>
+      <td class="d"><time datetime="{{ r.iso }}">{{ r.date }}</time></td>
+      <td class="o">{{ r.outlet }}</td>
+      <td class="h"><a href="{{ r.url }}" target="_blank" rel="noopener" title="{{ r.title }}">{{ r.title }}</a><span class="o2">{{ r.outlet }} · <span class="sent {{ r.sentiment }}">{{ r.sentiment }}</span></span></td>
+      <td class="s"><span class="sent {{ r.sentiment }}">{{ r.sentiment }}</span></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p class="note">The {{ latest | length }} most recent Prosus articles. Headlines open the original article.</p>
+{% else %}
+<p class="empty">No articles</p>
 {% endif %}
-{{ brief_html }}
-</section>
 </main>
 
 <footer>
@@ -202,30 +230,6 @@ ul.adds { margin: 0; padding-left: 20px; }
     <li>Audience figures</li>
     <li>Journalist database</li>
   </ul>
-
-  <h2>Proposed contact database (CRM)</h2>
-  <p class="lead">How flagged coverage would feed a contact database (CRM)</p>
-  <svg class="diagram" viewBox="0 0 480 300" role="img" aria-label="Contact database: Contact works at Organisation; Interaction is with Contact; Interaction is at Event; Organisation is active in Topic area; Event is about Topic area">
-    <line class="link" x1="134" y1="32" x2="333" y2="32"/>
-    <polygon class="arrow" points="345,32 333,26 333,38"/>
-    <text class="muted" x="240" y="24" font-size="17" text-anchor="middle">works at</text>
-    <line class="link" x1="72" y1="236" x2="72" y2="66"/>
-    <polygon class="arrow" points="72,54 66,66 78,66"/>
-    <text class="muted" x="80" y="150" font-size="17">is with</text>
-    <line class="link" x1="134" y1="258" x2="333" y2="258"/>
-    <polygon class="arrow" points="345,258 333,252 333,264"/>
-    <text class="muted" x="240" y="250" font-size="17" text-anchor="middle">is at</text>
-    <line class="link" x1="408" y1="54" x2="408" y2="111"/>
-    <polygon class="arrow" points="408,123 402,111 414,111"/>
-    <text class="muted" x="400" y="94" font-size="17" text-anchor="end">active in</text>
-    <line class="link" x1="408" y1="236" x2="408" y2="179"/>
-    <polygon class="arrow" points="408,167 402,179 414,179"/>
-    <text class="muted" x="400" y="206" font-size="17" text-anchor="end">is about</text>
-    {% for name, x, y in [("Contact", 10, 10), ("Organisation", 346, 10), ("Topic area", 346, 123), ("Interaction", 10, 236), ("Event", 346, 236)] %}
-    <rect class="box" x="{{ x }}" y="{{ y }}" width="124" height="44" rx="8"/>
-    <text x="{{ x + 62 }}" y="{{ y + 28 }}" font-size="17" font-weight="600" text-anchor="middle">{{ name }}</text>
-    {% endfor %}
-  </svg>
 
   <p><a href="#">Source code (link added on publish)</a></p>
 </footer>

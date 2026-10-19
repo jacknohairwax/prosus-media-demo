@@ -31,13 +31,11 @@ body {
 main, footer { max-width: 960px; margin: 0 auto; padding: 0 16px; }
 h1 { font-size: 1.6rem; line-height: 1.25; margin: 28px 0 6px; }
 h2 { font-size: 1.2rem; margin: 36px 0 12px; }
-h3 { font-size: 1.05rem; margin: 22px 0 6px; }
 p { margin: 0 0 10px; }
 a { color: var(--accent); }
 .sub { color: var(--muted); margin: 0 0 20px; }
 .banner { background: var(--banner-bg); color: var(--banner-fg); border: 2px solid var(--banner-line); border-radius: 8px; padding: 10px 14px; margin: 0 0 20px; font-weight: 600; }
 .note { color: var(--muted); font-size: .85rem; margin: 10px 0 0; }
-.lead { margin: 0 0 8px; }
 .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 @media (min-width: 720px) { .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .tile { background: var(--card); border-radius: 10px; padding: 12px; min-width: 0; }
@@ -63,8 +61,24 @@ svg .bar { fill: var(--accent); }
 svg .box { fill: var(--bg); stroke: var(--fg); stroke-width: 1.5; }
 svg .link { stroke: var(--muted); stroke-width: 1.5; fill: none; }
 svg .arrow { fill: var(--muted); }
-.brief { background: var(--card); border-radius: 10px; padding: 4px 16px 12px; }
-.brief h3 { margin-top: 16px; }
+.latest { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: .92rem; }
+.latest th, .latest td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.latest th { font-size: .78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+.latest .d { width: 4.6rem; white-space: nowrap; }
+.latest .o { width: 11rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.latest .s { width: 6.6rem; white-space: nowrap; }
+.latest .h a, .latest .o2 { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.latest .o2 { display: none; color: var(--muted); font-size: .8rem; }
+.sent::before { content: ""; display: inline-block; width: .7em; height: .7em; border-radius: 2px; margin-right: .35em; background: currentColor; }
+.sent.positive { color: var(--positive-text); }
+.sent.neutral { color: var(--neutral-text); }
+.sent.negative { color: var(--negative-text); }
+@media (max-width: 599px) {
+  .latest .o, .latest .s { display: none; }
+  .latest .o2 { display: block; }
+  .latest .d { width: 3.7rem; }
+  .latest th, .latest td { padding: 8px 4px; }
+}
 footer { color: var(--fg); border-top: 1px solid var(--line); margin-top: 40px; padding-bottom: 40px; }
 footer h2 { font-size: 1.05rem; margin-top: 28px; }
 .status { color: var(--muted); margin: 4px 0; }
@@ -170,22 +184,63 @@ ul.adds { margin: 0; padding-left: 20px; }
   </figure>
 </div>
 
-<h2>This week's brief</h2>
-<section class="brief">
-<p class="note">Placeholder items — Jack writes the real brief after reviewing the week.</p>
-<h3>[Placeholder] Item 1: flagged issue</h3>
-<p><strong>What happened:</strong> [Placeholder] Jack adds the first flagged article here.</p>
-<p><strong>Why it matters:</strong> [Placeholder] One or two sentences on the impact for Prosus.</p>
-<p><strong>Recommendation:</strong> [Placeholder] One concrete next step for the communications team.</p>
-<h3>[Placeholder] Item 2: flagged opportunity</h3>
-<p><strong>What happened:</strong> [Placeholder] Jack adds the second flagged article here.</p>
-<p><strong>Why it matters:</strong> [Placeholder] One or two sentences on the impact for Prosus.</p>
-<p><strong>Recommendation:</strong> [Placeholder] One concrete next step for the communications team.</p>
-<h3>[Placeholder] Item 3: trend to watch</h3>
-<p><strong>What happened:</strong> [Placeholder] Jack adds the third flagged article here.</p>
-<p><strong>Why it matters:</strong> [Placeholder] One or two sentences on the impact for Prosus.</p>
-<p><strong>Recommendation:</strong> [Placeholder] One concrete next step for the communications team.</p>
-</section>
+<h2>Latest Prosus coverage</h2>
+<table class="latest">
+  <thead>
+    <tr><th class="d" scope="col">Date</th><th class="o" scope="col">Outlet</th><th class="h" scope="col">Headline</th><th class="s" scope="col">Sentiment</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="d"><time datetime="2026-10-17">17 Oct</time></td>
+      <td class="o">Business Insider Nederland</td>
+      <td class="h"><a href="https://example.com/synthetic/26" target="_blank" rel="noopener" title="Thuisbezorgd lanceert AI-bestelassistent">Thuisbezorgd lanceert AI-bestelassistent</a><span class="o2">Business Insider Nederland · <span class="sent positive">positive</span></span></td>
+      <td class="s"><span class="sent positive">positive</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-10-16">16 Oct</time></td>
+      <td class="o">Sifted</td>
+      <td class="h"><a href="https://example.com/synthetic/25" target="_blank" rel="noopener" title="Prosus trims European venture portfolio">Prosus trims European venture portfolio</a><span class="o2">Sifted · <span class="sent neutral">neutral</span></span></td>
+      <td class="s"><span class="sent neutral">neutral</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-10-15">15 Oct</time></td>
+      <td class="o">Reuters</td>
+      <td class="h"><a href="https://example.com/synthetic/24" target="_blank" rel="noopener" title="Prosus raises buyback as discount narrows">Prosus raises buyback as discount narrows</a><span class="o2">Reuters · <span class="sent positive">positive</span></span></td>
+      <td class="s"><span class="sent positive">positive</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-10-14">14 Oct</time></td>
+      <td class="o">NRC</td>
+      <td class="h"><a href="https://example.com/synthetic/23" target="_blank" rel="noopener" title="Bloisi: AI kost banen, ook bij Prosus">Bloisi: AI kost banen, ook bij Prosus</a><span class="o2">NRC · <span class="sent negative">negative</span></span></td>
+      <td class="s"><span class="sent negative">negative</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-10-13">13 Oct</time></td>
+      <td class="o">Moneycontrol</td>
+      <td class="h"><a href="https://example.com/synthetic/22" target="_blank" rel="noopener" title="Top tech stocks to watch this week">Top tech stocks to watch this week</a><span class="o2">Moneycontrol · <span class="sent neutral">neutral</span></span></td>
+      <td class="s"><span class="sent neutral">neutral</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-10-12">12 Oct</time></td>
+      <td class="o">BNR</td>
+      <td class="h"><a href="https://example.com/synthetic/21" target="_blank" rel="noopener" title="Prosus sponsort tech-talentprogramma in Amsterdam">Prosus sponsort tech-talentprogramma in Amsterdam</a><span class="o2">BNR · <span class="sent neutral">neutral</span></span></td>
+      <td class="s"><span class="sent neutral">neutral</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-10-11">11 Oct</time></td>
+      <td class="o">Techleap</td>
+      <td class="h"><a href="https://example.com/synthetic/20" target="_blank" rel="noopener" title="Prosus AI House hosts Amsterdam founders event">Prosus AI House hosts Amsterdam founders event</a><span class="o2">Techleap · <span class="sent positive">positive</span></span></td>
+      <td class="s"><span class="sent positive">positive</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-10-10">10 Oct</time></td>
+      <td class="o">MarketScreener</td>
+      <td class="h"><a href="https://example.com/synthetic/19" target="_blank" rel="noopener" title="Prosus shares edge higher in Amsterdam trading">Prosus shares edge higher in Amsterdam trading</a><span class="o2">MarketScreener · <span class="sent neutral">neutral</span></span></td>
+      <td class="s"><span class="sent neutral">neutral</span></td>
+    </tr>
+  </tbody>
+</table>
+<p class="note">The 8 most recent Prosus articles. Headlines open the original article.</p>
 </main>
 
 <footer>
@@ -227,36 +282,6 @@ ul.adds { margin: 0; padding-left: 20px; }
     <li>Audience figures</li>
     <li>Journalist database</li>
   </ul>
-
-  <h2>Proposed contact database (CRM)</h2>
-  <p class="lead">How flagged coverage would feed a contact database (CRM)</p>
-  <svg class="diagram" viewBox="0 0 480 300" role="img" aria-label="Contact database: Contact works at Organisation; Interaction is with Contact; Interaction is at Event; Organisation is active in Topic area; Event is about Topic area">
-    <line class="link" x1="134" y1="32" x2="333" y2="32"/>
-    <polygon class="arrow" points="345,32 333,26 333,38"/>
-    <text class="muted" x="240" y="24" font-size="17" text-anchor="middle">works at</text>
-    <line class="link" x1="72" y1="236" x2="72" y2="66"/>
-    <polygon class="arrow" points="72,54 66,66 78,66"/>
-    <text class="muted" x="80" y="150" font-size="17">is with</text>
-    <line class="link" x1="134" y1="258" x2="333" y2="258"/>
-    <polygon class="arrow" points="345,258 333,252 333,264"/>
-    <text class="muted" x="240" y="250" font-size="17" text-anchor="middle">is at</text>
-    <line class="link" x1="408" y1="54" x2="408" y2="111"/>
-    <polygon class="arrow" points="408,123 402,111 414,111"/>
-    <text class="muted" x="400" y="94" font-size="17" text-anchor="end">active in</text>
-    <line class="link" x1="408" y1="236" x2="408" y2="179"/>
-    <polygon class="arrow" points="408,167 402,179 414,179"/>
-    <text class="muted" x="400" y="206" font-size="17" text-anchor="end">is about</text>
-    <rect class="box" x="10" y="10" width="124" height="44" rx="8"/>
-    <text x="72" y="38" font-size="17" font-weight="600" text-anchor="middle">Contact</text>
-    <rect class="box" x="346" y="10" width="124" height="44" rx="8"/>
-    <text x="408" y="38" font-size="17" font-weight="600" text-anchor="middle">Organisation</text>
-    <rect class="box" x="346" y="123" width="124" height="44" rx="8"/>
-    <text x="408" y="151" font-size="17" font-weight="600" text-anchor="middle">Topic area</text>
-    <rect class="box" x="10" y="236" width="124" height="44" rx="8"/>
-    <text x="72" y="264" font-size="17" font-weight="600" text-anchor="middle">Interaction</text>
-    <rect class="box" x="346" y="236" width="124" height="44" rx="8"/>
-    <text x="408" y="264" font-size="17" font-weight="600" text-anchor="middle">Event</text>
-  </svg>
 
   <p><a href="#">Source code (link added on publish)</a></p>
 </footer>

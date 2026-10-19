@@ -1,0 +1,23 @@
+# Window E report: trim the page to monitoring and KPIs
+
+- Base: `main` has no page code, so with Jack's approval `win-e-trim` is built on `origin/win-b-page` (b51d363). Merge B first, then E.
+- Removed:
+  - The "This week's brief" section, its brief.md parser (`render_md`, `load_brief`, `BRIEF_PATH`, the markupsafe import) and its CSS.
+  - `brief.md` itself.
+  - The CRM schema diagram (5 boxes).
+  - Net change in build_page.py is −69 lines.
+- Kept: title, subtitle, synthetic-data banner, four tiles, two charts, and the footer (pipeline diagram, accuracy, cost, paid-licence note, repo link). Tile and chart values are the same as B's.
+- Added: a "Latest Prosus coverage" table after the charts. It shows the 8 newest Prosus rows from the same valid rows the charts use, newest first, ties by `id`:
+  - Columns: date, outlet, headline linked to `url` (`url_source` is ignored; tested), and sentiment as a word in the chart colour.
+  - One line per headline, cut off with "…"; the full title shows on hover.
+  - Below 600px it becomes two columns: date, then headline with "outlet · sentiment" underneath.
+- Sample data: 17 Oct (Business Insider NL, Thuisbezorgd AI assistant, positive) back to 10 Oct (MarketScreener, Prosus shares edge higher, neutral). Mix: 3 positive, 4 neutral, 1 negative.
+- Size: `site/index.html` is 17.5 KB in a single file. It has 0 `<script`, 0 `<link`/`@import`/`url(`, and links only to articles.
+- Layout: no sideways scroll at 320, 360, 390 or 1280px. Light and dark mode both work. Lowest text contrast in the table is 5.13:1.
+- Screenshots: `reports/window-e-390.png` and `reports/window-e-1280.png` (light mode).
+- Checks: new `scripts/check_page.py` passes. An independent audit passed 6 of 6 checks, and rebuilds are byte-identical.
+- Open issues:
+  - Data: "Top tech stocks to watch this week" (Moneycontrol, sample CSV line 23) is in the table, but collect.py's relevance filter would drop it. Window A should fix this in the sample, or Window C should add a "stocks to watch" exclusion.
+  - Data: "Prosus shares edge higher" gets past collect.py's price-move filter, because "edge" is not one of its verbs.
+  - Cosmetic: at 1280px "Business Insider Nede…" is cut off with no hover text.
+- Not verified: Safari, Firefox, real phones, screen readers, and real `data/articles.csv`. Token spend: 0.
