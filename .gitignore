@@ -1,0 +1,3 @@
+data/articles_raw.csv
+.env
+__pycache__/
