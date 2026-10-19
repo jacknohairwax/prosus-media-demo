@@ -1,0 +1,2561 @@
+# feeds.yaml -- verified source list (window C, checked 2026-10-19)
+# Two sections, both read by collect.py:
+#   rss         direct outlet feeds; verified yes = HTTP 200 and >= 1 entry
+#   googlenews  one feed per queries.yaml phrase x edition (en = en-US/US, nl = nl/NL);
+#               verified yes = HTTP 200 and >= 1 item in the last 30 days; skip entries with use: no
+# paywalled yes = outlet paywalls articles; collect keeps headline + feed summary only.
+# outlet_tier/paywalled are "mixed" for Google News: set per article from the outlet name.
+
+rss:
+  - name: prosus_newsroom
+    url: https://www.prosus.com/rss
+    type: rss
+    language: en
+    outlet: Prosus
+    outlet_tier: tier3
+    paywalled: 'no'
+    verified: 'yes'
+    http_status: 200
+    entries: 10
+    entries_last_30d: 6
+    prosus_mentions_30d: 3
+    note: 'redirects to /rss/group-updates; titles+links only, no summary; 10 items; own newsroom so tier3. 404: /feed, /news-insights/rss, /rss/press-releases'
+    last_checked: '2026-10-19'
+  - name: fd
+    url: https://fd.nl/?rss
+    type: rss
+    language: nl
+    outlet: Het Financieele Dagblad
+    outlet_tier: tier1
+    paywalled: 'yes'
+    verified: 'yes'
+    http_status: 200
+    entries: 38
+    entries_last_30d: 38
+    prosus_mentions_30d: 0
+    note: 'from <link rel=alternate> on fd.nl; 404: /rss'
+    last_checked: '2026-10-19'
+  - name: nrc
+    url: https://www.nrc.nl/rss/
+    type: rss
+    language: nl
+    outlet: NRC
+    outlet_tier: tier1
+    paywalled: 'yes'
+    verified: 'yes'
+    http_status: 200
+    entries: 159
+    entries_last_30d: 141
+    prosus_mentions_30d: 0
+    note: from <link rel=alternate>; /sectie/economie/rss/ returns 29 items but newest 2019-04-29 (stale, not used)
+    last_checked: '2026-10-19'
+  - name: nu_economie
+    url: https://www.nu.nl/rss/Economie
+    type: rss
+    language: nl
+    outlet: NU.nl
+    outlet_tier: tier2
+    paywalled: 'no'
+    verified: 'yes'
+    http_status: 200
+    entries: 30
+    entries_last_30d: 30
+    prosus_mentions_30d: 0
+    note: 30 items ~3 days deep; poll daily
+    last_checked: '2026-10-19'
+  - name: silicon_canals
+    url: https://siliconcanals.com/feed/
+    type: rss
+    language: en
+    outlet: Silicon Canals
+    outlet_tier: tier2
+    paywalled: 'no'
+    verified: 'yes'
+    http_status: 200
+    entries: 10
+    entries_last_30d: 7
+    prosus_mentions_30d: 0
+    note: 'newest item 2026-09-22: no posts for ~4 weeks; /news/feed/ newest 2026-09-02'
+    last_checked: '2026-10-19'
+  - name: reuters_technology
+    url: https://www.reuters.com/technology/rss
+    type: rss
+    language: en
+    outlet: Reuters
+    outlet_tier: tier1
+    paywalled: 'yes'
+    verified: 'no'
+    http_status: 401
+    entries: 0
+    entries_last_30d: 0
+    prosus_mentions_30d: 0
+    note: 401 on site and feed path; feeds.reuters.com does not connect (discontinued); /arc/outboundfeeds/rss and /v3/all/rss.xml 404; news-sitemap 200 but not RSS (0 entries). Use Google News for Reuters
+    last_checked: '2026-10-19'
+  - name: economic_times_tech
+    url: https://economictimes.indiatimes.com/tech/rssfeeds/13357270.cms
+    type: rss
+    language: en
+    outlet: Economic Times
+    outlet_tier: tier1
+    paywalled: 'no'
+    verified: 'yes'
+    http_status: 200
+    entries: 50
+    entries_last_30d: 50
+    prosus_mentions_30d: 0
+    note: from <link rel=alternate> on /tech; 50 items ~4 days deep; ET Prime pieces are paywalled
+    last_checked: '2026-10-19'
+  - name: techleap
+    url: https://techleap.nl/feed/
+    type: rss
+    language: en
+    outlet: Techleap
+    outlet_tier: tier3
+    paywalled: 'no'
+    verified: 'no'
+    http_status: 404
+    entries: 0
+    entries_last_30d: 0
+    prosus_mentions_30d: 0
+    note: '404; no RSS: /feed/, /rss, /rss.xml, /news/feed/ all 404; no <link rel=alternate> on homepage'
+    last_checked: '2026-10-19'
+
+googlenews:
+  - name: gn_en_core_prosus
+    url: https://news.google.com/rss/search?q=Prosus%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 92
+    rows_30d: 92
+    excluded_30d: 34
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_core_prosus
+    url: https://news.google.com/rss/search?q=Prosus%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 44
+    rows_30d: 44
+    excluded_30d: 12
+    false_positives_30d: 5
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_core_prosus_nv
+    url: https://news.google.com/rss/search?q=%22Prosus%20N.V.%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: '"Prosus N.V."'
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 40
+    rows_30d: 40
+    excluded_30d: 30
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_core_prosus_nv
+    url: https://news.google.com/rss/search?q=%22Prosus%20N.V.%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: '"Prosus N.V."'
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 7
+    rows_30d: 7
+    excluded_30d: 1
+    false_positives_30d: 3
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'no'
+    use_note: '3/6 kept rows off-target in this edition; the other edition or an intitle: phrase covers it'
+  - name: gn_en_core_naspers_prosus
+    url: https://news.google.com/rss/search?q=intitle%3ANaspers%20intitle%3AProsus%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: intitle:Naspers intitle:Prosus
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 3
+    rows_30d: 3
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_core_naspers_prosus
+    url: https://news.google.com/rss/search?q=intitle%3ANaspers%20intitle%3AProsus%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: intitle:Naspers intitle:Prosus
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_recall_india
+    url: https://news.google.com/rss/search?q=Prosus%20India%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus India
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 57
+    rows_30d: 57
+    excluded_30d: 3
+    false_positives_30d: 5
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_recall_india
+    url: https://news.google.com/rss/search?q=Prosus%20India%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus India
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 4
+    rows_30d: 4
+    excluded_30d: 0
+    false_positives_30d: 1
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'no'
+    use_note: '1/4 kept rows off-target in this edition; the other edition or an intitle: phrase covers it'
+  - name: gn_en_recall_artificial_intelligence
+    url: https://news.google.com/rss/search?q=Prosus%20%22artificial%20intelligence%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus "artificial intelligence"
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 22
+    rows_30d: 22
+    excluded_30d: 3
+    false_positives_30d: 3
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_recall_artificial_intelligence
+    url: https://news.google.com/rss/search?q=Prosus%20%22artificial%20intelligence%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus "artificial intelligence"
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_recall_ai
+    url: https://news.google.com/rss/search?q=Prosus%20AI%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus AI
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 62
+    rows_30d: 62
+    excluded_30d: 22
+    false_positives_30d: 6
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_recall_ai
+    url: https://news.google.com/rss/search?q=Prosus%20AI%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus AI
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 42
+    rows_30d: 42
+    excluded_30d: 11
+    false_positives_30d: 9
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'no'
+    use_note: '9/31 kept rows off-target in this edition; the other edition or an intitle: phrase covers it'
+  - name: gn_en_recall_ifood
+    url: https://news.google.com/rss/search?q=Prosus%20iFood%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus iFood
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 12
+    rows_30d: 12
+    excluded_30d: 1
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_recall_ifood
+    url: https://news.google.com/rss/search?q=Prosus%20iFood%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus iFood
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 6
+    rows_30d: 6
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_recall_prosus_ventures
+    url: https://news.google.com/rss/search?q=%22Prosus%20Ventures%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: '"Prosus Ventures"'
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 12
+    rows_30d: 12
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_recall_prosus_ventures
+    url: https://news.google.com/rss/search?q=%22Prosus%20Ventures%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: '"Prosus Ventures"'
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_recall_board
+    url: https://news.google.com/rss/search?q=Prosus%20board%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus board
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 19
+    rows_30d: 19
+    excluded_30d: 2
+    false_positives_30d: 1
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_recall_board
+    url: https://news.google.com/rss/search?q=Prosus%20board%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus board
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_recall_shareholders
+    url: https://news.google.com/rss/search?q=Prosus%20shareholders%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus shareholders
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 10
+    rows_30d: 10
+    excluded_30d: 3
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_recall_shareholders
+    url: https://news.google.com/rss/search?q=Prosus%20shareholders%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus shareholders
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_recall_investment
+    url: https://news.google.com/rss/search?q=Prosus%20investment%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus investment
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 60
+    rows_30d: 60
+    excluded_30d: 21
+    false_positives_30d: 3
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_recall_investment
+    url: https://news.google.com/rss/search?q=Prosus%20investment%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus investment
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 12
+    rows_30d: 12
+    excluded_30d: 2
+    false_positives_30d: 1
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_recall_tencent_aandelen
+    url: https://news.google.com/rss/search?q=Prosus%20Tencent%20aandelen%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus Tencent aandelen
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_recall_tencent_aandelen
+    url: https://news.google.com/rss/search?q=Prosus%20Tencent%20aandelen%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus Tencent aandelen
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 11
+    rows_30d: 11
+    excluded_30d: 3
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_recall_aandeelhouders
+    url: https://news.google.com/rss/search?q=Prosus%20aandeelhouders%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus aandeelhouders
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_recall_aandeelhouders
+    url: https://news.google.com/rss/search?q=Prosus%20aandeelhouders%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: company
+    query: Prosus aandeelhouders
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 13
+    rows_30d: 13
+    excluded_30d: 0
+    false_positives_30d: 1
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_exec_bloisi_name
+    url: https://news.google.com/rss/search?q=%22Fabricio%20Bloisi%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: bloisi
+    query: '"Fabricio Bloisi"'
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 12
+    rows_30d: 12
+    excluded_30d: 0
+    false_positives_30d: 1
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_exec_bloisi_name
+    url: https://news.google.com/rss/search?q=%22Fabricio%20Bloisi%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: bloisi
+    query: '"Fabricio Bloisi"'
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 9
+    rows_30d: 9
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_exec_bloisi_prosus
+    url: https://news.google.com/rss/search?q=Bloisi%20Prosus%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: bloisi
+    query: Bloisi Prosus
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 12
+    rows_30d: 12
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_exec_bloisi_prosus
+    url: https://news.google.com/rss/search?q=Bloisi%20Prosus%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: bloisi
+    query: Bloisi Prosus
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 7
+    rows_30d: 7
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_exec_sgourdos_prosus
+    url: https://news.google.com/rss/search?q=%22Basil%20Sgourdos%22%20Prosus%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: sgourdos
+    query: '"Basil Sgourdos" Prosus'
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_exec_sgourdos_prosus
+    url: https://news.google.com/rss/search?q=%22Basil%20Sgourdos%22%20Prosus%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: sgourdos
+    query: '"Basil Sgourdos" Prosus'
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_exec_sgourdos_naspers
+    url: https://news.google.com/rss/search?q=%22Basil%20Sgourdos%22%20Naspers%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: sgourdos
+    query: '"Basil Sgourdos" Naspers'
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 1
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_exec_sgourdos_naspers
+    url: https://news.google.com/rss/search?q=%22Basil%20Sgourdos%22%20Naspers%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: sgourdos
+    query: '"Basil Sgourdos" Naspers'
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_exec_kolek_prosus
+    url: https://news.google.com/rss/search?q=%22Patrick%20Kolek%22%20Prosus%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: kolek
+    query: '"Patrick Kolek" Prosus'
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_exec_kolek_prosus
+    url: https://news.google.com/rss/search?q=%22Patrick%20Kolek%22%20Prosus%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: kolek
+    query: '"Patrick Kolek" Prosus'
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_exec_kolek_naspers
+    url: https://news.google.com/rss/search?q=%22Patrick%20Kolek%22%20Naspers%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: kolek
+    query: '"Patrick Kolek" Naspers'
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_exec_kolek_naspers
+    url: https://news.google.com/rss/search?q=%22Patrick%20Kolek%22%20Naspers%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: kolek
+    query: '"Patrick Kolek" Naspers'
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_exec_beinat_name
+    url: https://news.google.com/rss/search?q=%22Euro%20Beinat%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    entity: beinat
+    query: '"Euro Beinat"'
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 8
+    rows_30d: 8
+    excluded_30d: 1
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_exec_beinat_name
+    url: https://news.google.com/rss/search?q=%22Euro%20Beinat%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    entity: beinat
+    query: '"Euro Beinat"'
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 7
+    rows_30d: 7
+    excluded_30d: 0
+    false_positives_30d: 1
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_results_results
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aresults%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:results
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_results_results
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aresults%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:results
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_results_earnings
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aearnings%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:earnings
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 2
+    rows_30d: 2
+    excluded_30d: 2
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_results_earnings
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aearnings%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:earnings
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_results_profit
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aprofit%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:profit
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_results_profit
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aprofit%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:profit
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_results_buyback
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Abuyback%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:buyback
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 6
+    rows_30d: 6
+    excluded_30d: 5
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_results_buyback
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Abuyback%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:buyback
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_results_resultaten
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aresultaten%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:resultaten
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_results_resultaten
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aresultaten%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:resultaten
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_results_winst
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Awinst%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:winst
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_results_winst
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Awinst%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:winst
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_results_jaarcijfers
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Ajaarcijfers%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:jaarcijfers
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_results_jaarcijfers
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Ajaarcijfers%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: results
+    query: intitle:Prosus intitle:jaarcijfers
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_tencent_stake_tencent
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3ATencent%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: tencent_stake
+    query: intitle:Prosus intitle:Tencent
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_tencent_stake_tencent
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3ATencent%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: tencent_stake
+    query: intitle:Prosus intitle:Tencent
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 2
+    rows_30d: 2
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_tencent_stake_tencent_stake
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22Tencent%20stake%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: tencent_stake
+    query: intitle:Prosus intitle:"Tencent stake"
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_tencent_stake_tencent_stake
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22Tencent%20stake%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: tencent_stake
+    query: intitle:Prosus intitle:"Tencent stake"
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_tencent_stake_tencent_shares
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22Tencent%20shares%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: tencent_stake
+    query: intitle:Prosus intitle:"Tencent shares"
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_tencent_stake_tencent_shares
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22Tencent%20shares%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: tencent_stake
+    query: intitle:Prosus intitle:"Tencent shares"
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_tencent_stake_tencent_belang
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3ATencent-belang%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: tencent_stake
+    query: intitle:Prosus intitle:Tencent-belang
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_tencent_stake_tencent_belang
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3ATencent-belang%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: tencent_stake
+    query: intitle:Prosus intitle:Tencent-belang
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_tencent_stake_tencent_aandelen
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3ATencent-aandelen%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: tencent_stake
+    query: intitle:Prosus intitle:Tencent-aandelen
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_tencent_stake_tencent_aandelen
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3ATencent-aandelen%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: tencent_stake
+    query: intitle:Prosus intitle:Tencent-aandelen
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ai_ai
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AAI%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:AI
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 13
+    rows_30d: 13
+    excluded_30d: 1
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ai_ai
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AAI%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:AI
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 7
+    rows_30d: 7
+    excluded_30d: 0
+    false_positives_30d: 1
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ai_toqan
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AToqan%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:Toqan
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ai_toqan
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AToqan%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:Toqan
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ai_ai_house
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22AI%20House%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:"AI House"
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ai_ai_house
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22AI%20House%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:"AI House"
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ai_agents
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aagents%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:agents
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ai_agents
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aagents%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:agents
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ai_luminate
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3ALuminate%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:Luminate
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ai_luminate
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3ALuminate%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:Luminate
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ai_kunstmatige_intelligentie
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22kunstmatige%20intelligentie%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:"kunstmatige intelligentie"
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ai_kunstmatige_intelligentie
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22kunstmatige%20intelligentie%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:"kunstmatige intelligentie"
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ai_ai_agents_nl
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AAI-agents%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:AI-agents
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ai_ai_agents_nl
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AAI-agents%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ai
+    query: intitle:Prosus intitle:AI-agents
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_jet_integration_jet
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22Just%20Eat%20Takeaway%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: jet_integration
+    query: intitle:Prosus intitle:"Just Eat Takeaway"
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 3
+    rows_30d: 3
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_jet_integration_jet
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22Just%20Eat%20Takeaway%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: jet_integration
+    query: intitle:Prosus intitle:"Just Eat Takeaway"
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_jet_integration_jet_brand
+    url: https://news.google.com/rss/search?q=intitle%3A%22Just%20Eat%20Takeaway%22%20Prosus%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: jet_integration
+    query: intitle:"Just Eat Takeaway" Prosus
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 6
+    rows_30d: 6
+    excluded_30d: 2
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_jet_integration_jet_brand
+    url: https://news.google.com/rss/search?q=intitle%3A%22Just%20Eat%20Takeaway%22%20Prosus%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: jet_integration
+    query: intitle:"Just Eat Takeaway" Prosus
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 2
+    rows_30d: 2
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_jet_integration_just_eat
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22Just%20Eat%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: jet_integration
+    query: intitle:Prosus intitle:"Just Eat"
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 5
+    rows_30d: 5
+    excluded_30d: 1
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_jet_integration_just_eat
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22Just%20Eat%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: jet_integration
+    query: intitle:Prosus intitle:"Just Eat"
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_jet_integration_jet_short
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AJET%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: jet_integration
+    query: intitle:Prosus intitle:JET
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 3
+    rows_30d: 3
+    excluded_30d: 1
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_jet_integration_jet_short
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AJET%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: jet_integration
+    query: intitle:Prosus intitle:JET
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_jet_integration_thuisbezorgd
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AThuisbezorgd%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: jet_integration
+    query: intitle:Prosus intitle:Thuisbezorgd
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_jet_integration_thuisbezorgd
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AThuisbezorgd%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: jet_integration
+    query: intitle:Prosus intitle:Thuisbezorgd
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ventures_investments_prosus_ventures
+    url: https://news.google.com/rss/search?q=intitle%3A%22Prosus%20Ventures%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:"Prosus Ventures"
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 3
+    rows_30d: 3
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ventures_investments_prosus_ventures
+    url: https://news.google.com/rss/search?q=intitle%3A%22Prosus%20Ventures%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:"Prosus Ventures"
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ventures_investments_india
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AIndia%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:Prosus intitle:India
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 2
+    rows_30d: 2
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ventures_investments_india
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AIndia%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:Prosus intitle:India
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ventures_investments_latam
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3ALatAm%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:Prosus intitle:LatAm
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ventures_investments_latam
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3ALatAm%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:Prosus intitle:LatAm
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ventures_investments_ifood
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AiFood%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:Prosus intitle:iFood
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 2
+    rows_30d: 2
+    excluded_30d: 0
+    false_positives_30d: 1
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ventures_investments_ifood
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3AiFood%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:Prosus intitle:iFood
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ventures_investments_investment
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Ainvestment%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:Prosus intitle:investment
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 3
+    rows_30d: 3
+    excluded_30d: 1
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ventures_investments_investment
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Ainvestment%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:Prosus intitle:investment
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ventures_investments_investeert
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Ainvesteert%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:Prosus intitle:investeert
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ventures_investments_investeert
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Ainvesteert%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:Prosus intitle:investeert
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_ventures_investments_investering
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Ainvestering%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:Prosus intitle:investering
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_ventures_investments_investering
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Ainvestering%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: ventures_investments
+    query: intitle:Prosus intitle:investering
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_governance_regulation_european_commission
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22European%20Commission%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:"European Commission"
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_governance_regulation_european_commission
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22European%20Commission%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:"European Commission"
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_governance_regulation_antitrust
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aantitrust%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:antitrust
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_governance_regulation_antitrust
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aantitrust%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:antitrust
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_governance_regulation_shareholders
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Ashareholders%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:shareholders
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_governance_regulation_shareholders
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Ashareholders%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:shareholders
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_governance_regulation_board
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aboard%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:board
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 1
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_governance_regulation_board
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aboard%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:board
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_governance_regulation_europese_commissie
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22Europese%20Commissie%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:"Europese Commissie"
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_governance_regulation_europese_commissie
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3A%22Europese%20Commissie%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:"Europese Commissie"
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_governance_regulation_aandeelhouders
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aaandeelhouders%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:aandeelhouders
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_governance_regulation_aandeelhouders
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Aaandeelhouders%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:aandeelhouders
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_topic_governance_regulation_toezichthouder
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Atoezichthouder%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:toezichthouder
+    phrase_lang: nl
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_topic_governance_regulation_toezichthouder
+    url: https://news.google.com/rss/search?q=intitle%3AProsus%20intitle%3Atoezichthouder%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: prosus
+    topic: governance_regulation
+    query: intitle:Prosus intitle:toezichthouder
+    phrase_lang: nl
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_peer_peer_deliveryhero_name
+    url: https://news.google.com/rss/search?q=%22Delivery%20Hero%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: peer_deliveryhero
+    entity: none
+    query: '"Delivery Hero"'
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 100
+    rows_30d: 100
+    excluded_30d: 44
+    false_positives_30d: 12
+    hits_100_cap: true
+    last_checked: '2026-10-19'
+    use: 'no'
+    use_note: '12/56 kept rows off-target in this edition; the other edition or an intitle: phrase covers it'
+  - name: gn_nl_peer_peer_deliveryhero_name
+    url: https://news.google.com/rss/search?q=%22Delivery%20Hero%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: peer_deliveryhero
+    entity: none
+    query: '"Delivery Hero"'
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 7
+    rows_30d: 7
+    excluded_30d: 0
+    false_positives_30d: 6
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'no'
+    use_note: '6/7 kept rows off-target in this edition; the other edition or an intitle: phrase covers it'
+  - name: gn_en_peer_peer_deliveryhero_title
+    url: https://news.google.com/rss/search?q=intitle%3A%22Delivery%20Hero%22%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: peer_deliveryhero
+    entity: none
+    query: intitle:"Delivery Hero"
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 100
+    rows_30d: 100
+    excluded_30d: 60
+    false_positives_30d: 2
+    hits_100_cap: true
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_peer_peer_deliveryhero_title
+    url: https://news.google.com/rss/search?q=intitle%3A%22Delivery%20Hero%22%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: peer_deliveryhero
+    entity: none
+    query: intitle:"Delivery Hero"
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_peer_peer_deliveryhero_results
+    url: https://news.google.com/rss/search?q=intitle%3A%22Delivery%20Hero%22%20intitle%3Aresults%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: peer_deliveryhero
+    entity: none
+    query: intitle:"Delivery Hero" intitle:results
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_peer_peer_deliveryhero_results
+    url: https://news.google.com/rss/search?q=intitle%3A%22Delivery%20Hero%22%20intitle%3Aresults%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: peer_deliveryhero
+    entity: none
+    query: intitle:"Delivery Hero" intitle:results
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_peer_peer_zalando_name
+    url: https://news.google.com/rss/search?q=Zalando%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: peer_zalando
+    entity: none
+    query: Zalando
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 100
+    rows_30d: 100
+    excluded_30d: 47
+    false_positives_30d: 2
+    hits_100_cap: true
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_peer_peer_zalando_name
+    url: https://news.google.com/rss/search?q=Zalando%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: peer_zalando
+    entity: none
+    query: Zalando
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 37
+    rows_30d: 37
+    excluded_30d: 11
+    false_positives_30d: 16
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'no'
+    use_note: '16/26 kept rows off-target in this edition; the other edition or an intitle: phrase covers it'
+  - name: gn_en_peer_peer_zalando_title
+    url: https://news.google.com/rss/search?q=intitle%3AZalando%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: peer_zalando
+    entity: none
+    query: intitle:Zalando
+    phrase_lang: any
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 100
+    rows_30d: 100
+    excluded_30d: 48
+    false_positives_30d: 0
+    hits_100_cap: true
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_peer_peer_zalando_title
+    url: https://news.google.com/rss/search?q=intitle%3AZalando%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: peer_zalando
+    entity: none
+    query: intitle:Zalando
+    phrase_lang: any
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 13
+    rows_30d: 13
+    excluded_30d: 2
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_en_peer_peer_zalando_results
+    url: https://news.google.com/rss/search?q=intitle%3AZalando%20intitle%3Aresults%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen
+    type: googlenews
+    company: peer_zalando
+    entity: none
+    query: intitle:Zalando intitle:results
+    phrase_lang: en
+    language: en
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'yes'
+    http_status: 200
+    items_total: 1
+    rows_30d: 1
+    excluded_30d: 1
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
+  - name: gn_nl_peer_peer_zalando_results
+    url: https://news.google.com/rss/search?q=intitle%3AZalando%20intitle%3Aresults%20when%3A30d&hl=nl&gl=NL&ceid=NL%3Anl
+    type: googlenews
+    company: peer_zalando
+    entity: none
+    query: intitle:Zalando intitle:results
+    phrase_lang: en
+    language: nl
+    outlet_tier: mixed
+    paywalled: mixed
+    verified: 'no'
+    http_status: 200
+    items_total: 0
+    rows_30d: 0
+    excluded_30d: 0
+    false_positives_30d: 0
+    hits_100_cap: false
+    last_checked: '2026-10-19'
+    use: 'yes'
