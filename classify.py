@@ -3,6 +3,8 @@
 One fixed prompt, taxonomy from docs/BRIEF.md, batches of 10 articles (title + summary
 only), structured JSON output. Idempotent: ids already in data/articles.csv are skipped.
 Spend guard: stops before cumulative USD in runs/log.csv would reach SPEND_STOP_USD.
+collect.py owns `entity` (from the query group) and a fixed `topic` (queries.yaml `topics`
+phrases): a non-blank value in articles_raw.csv is kept; the classifier fills only blanks.
 
 Run: python classify.py
 """
@@ -29,6 +31,7 @@ ENV_FILE = ROOT / ".env"
 COLUMNS = [
     "id", "published", "source", "outlet", "outlet_tier", "title", "url", "summary",
     "language", "company", "topic", "entity", "sentiment", "confidence", "flag",
+    "url_source", "url_resolved",   # set by collect.py, passed through
 ]
 LOG_HEADER = ["date", "step", "rows", "tokens_in", "tokens_out", "usd"]
 
@@ -287,6 +290,16 @@ def run_passes(clf: Classifier, pending: list[dict], results: dict[str, dict]) -
         pending = retry
 
 
+COLLECT_OWNED_IF_SET = ["entity", "topic"]
+
+
+def keep_collect_owned(row: dict, raw_row: dict) -> None:
+    """entity and topic from collect.py win when set; the classifier fills only blanks."""
+    for c in COLLECT_OWNED_IF_SET:
+        if raw_row.get(c, ""):
+            row[c] = raw_row[c]
+
+
 def select_rows(raw: pd.DataFrame, done: set[str]) -> pd.DataFrame:
     todo = raw[~raw["id"].isin(done)].sort_values(["published", "id"], ascending=False)
     # prosus first, so a spend-guard stop leaves the main company fully classified
@@ -334,6 +347,7 @@ def main() -> int:
         if r["id"] in results:
             row = {c: r.get(c, "") for c in COLUMNS}
             row.update(results[r["id"]])
+            keep_collect_owned(row, r)
             new_rows.append(row)
     failed = len(records) - len(new_rows) if not (clf.stopped or crashed) else None
 
@@ -341,11 +355,18 @@ def main() -> int:
     merged = (pd.concat([existing, new_df], ignore_index=True) if len(existing) else new_df)
     merged = merged.drop_duplicates("id", keep="first")
     # refresh collect-owned columns from the current raw file (classifier columns kept)
-    owned = ["published", "source", "outlet", "outlet_tier", "title", "url", "summary", "company"]
+    owned = ["published", "source", "outlet", "outlet_tier", "title", "url", "summary", "company",
+             "url_source", "url_resolved"]
     rawi = raw.drop_duplicates("id").set_index("id")
+    merged = merged.reindex(columns=COLUMNS).fillna("")
     m = merged["id"].isin(rawi.index)
     for c in owned:
-        merged.loc[m, c] = merged.loc[m, "id"].map(rawi[c]).values
+        if c in rawi.columns:
+            merged.loc[m, c] = merged.loc[m, "id"].map(rawi[c]).values
+    for c in COLLECT_OWNED_IF_SET:   # collect's entity / fixed topic win over earlier tags
+        if c in rawi.columns:
+            src = merged.loc[m, "id"].map(rawi[c])
+            merged.loc[m, c] = src.where(src != "", merged.loc[m, c]).values
     # keep only ids present in the current raw file (filtered-out rows leave the output)
     before = len(merged)
     merged = merged[merged["id"].isin(set(raw["id"]))]
