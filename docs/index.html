@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Prosus in the media — 21 Sep to 19 Oct 2026</title>
+<style>
+:root {
+  --bg: #ffffff; --fg: #1a1a1a; --muted: #5c5c5c; --card: #f4f5f7; --line: #d6d8dc;
+  --accent: #1f4fd1;
+  --positive: #2e7d32; --neutral: #767c86; --negative: #bf360c;
+  --neutral-text: #5f6570; --negative-text: #bf360c; --positive-text: #2e7d32;
+  --grid: #b4b8bf; --banner-bg: #fff3c4; --banner-fg: #4a3b00; --banner-line: #c9a400;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121417; --fg: #e9eaec; --muted: #a3a7ae; --card: #1d2025; --line: #3a3e45;
+    --accent: #8fb0ff;
+    --positive: #5cbf62; --neutral: #9aa0a8; --negative: #ff7a4d;
+    --neutral-text: #9aa0a8; --negative-text: #ff7a4d; --positive-text: #5cbf62;
+    --grid: #3a3e45; --banner-bg: #3a3000; --banner-fg: #ffe9a0; --banner-line: #b38f00;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+main, footer { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+h1 { font-size: 1.6rem; line-height: 1.25; margin: 28px 0 6px; }
+h2 { font-size: 1.2rem; margin: 36px 0 12px; }
+p { margin: 0 0 10px; }
+a { color: var(--accent); }
+.sub { color: var(--muted); margin: 0 0 20px; }
+.banner { background: var(--banner-bg); color: var(--banner-fg); border: 2px solid var(--banner-line); border-radius: 8px; padding: 10px 14px; margin: 0 0 20px; font-weight: 600; }
+.note { color: var(--muted); font-size: .85rem; margin: 10px 0 0; }
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 720px) { .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.tile { background: var(--card); border-radius: 10px; padding: 12px; min-width: 0; }
+.tile .k { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+.tile .v { font-size: 1.6rem; font-weight: 700; line-height: 1.2; margin: 4px 0; overflow-wrap: anywhere; }
+.tile .v.small { font-size: 1.15rem; }
+.tile .c { font-size: .82rem; color: var(--muted); }
+.split { font-size: .95rem; font-weight: 600; line-height: 1.35; margin: 4px 0; }
+.split span { display: block; }
+.charts { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 720px) { .charts { grid-template-columns: 1fr 1fr; } }
+figure { margin: 0; background: var(--card); border-radius: 10px; padding: 12px; min-width: 0; }
+figcaption { font-weight: 600; margin-bottom: 6px; }
+svg { display: block; width: 100%; height: auto; }
+svg.diagram { max-width: 560px; }
+svg text { fill: var(--fg); font-family: inherit; }
+svg .muted { fill: var(--muted); }
+svg .axis { stroke: var(--grid); stroke-width: 1; }
+svg .positive { fill: var(--positive); }
+svg .neutral { fill: var(--neutral); }
+svg .negative { fill: var(--negative); }
+svg .bar { fill: var(--accent); }
+svg .box { fill: var(--bg); stroke: var(--fg); stroke-width: 1.5; }
+svg .link { stroke: var(--muted); stroke-width: 1.5; fill: none; }
+svg .arrow { fill: var(--muted); }
+.latest { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: .92rem; }
+.latest th, .latest td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.latest th { font-size: .78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+.latest .d { width: 4.6rem; white-space: nowrap; }
+.latest .o { width: 12rem; overflow-wrap: anywhere; }
+.latest .s { width: 6.6rem; white-space: nowrap; }
+.latest .h a, .latest .o2 { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.latest .o2 { display: none; color: var(--muted); font-size: .8rem; }
+.sent::before { content: ""; display: inline-block; width: .7em; height: .7em; border-radius: 2px; margin-right: .35em; background: currentColor; }
+.sent.positive { color: var(--positive-text); }
+.sent.neutral { color: var(--neutral-text); }
+.sent.negative { color: var(--negative-text); }
+@media (max-width: 599px) {
+  .latest .o, .latest .s { display: none; }
+  .latest .o2 { display: block; }
+  .latest .d { width: 3.7rem; }
+  .latest th, .latest td { padding: 8px 4px; }
+}
+footer { color: var(--fg); border-top: 1px solid var(--line); margin-top: 40px; padding-bottom: 40px; }
+footer h2 { font-size: 1.05rem; margin-top: 28px; }
+.status { color: var(--muted); margin: 4px 0; }
+ul.adds { margin: 0; padding-left: 20px; }
+.empty { color: var(--muted); padding: 20px 0; }
+</style>
+</head>
+<body>
+<main>
+<h1>Prosus in the media — 21 Sep to 19 Oct 2026</h1>
+<p class="sub">Public sources only, tagged by AI, reviewed by Jack Niu. Built for the AI Automation Intern application.</p>
+
+<section class="tiles" aria-label="Key numbers">
+  <div class="tile">
+    <div class="k">Prosus stories</div>
+    <div class="v" id="n-stories">25</div>
+    <div class="c" id="n-articles">76 articles across 25 stories</div>
+    <div class="c">Excludes 57 off-target rows (see the note below the charts)</div>
+  </div>
+  <div class="tile">
+    <div class="k">Sentiment split</div>
+    <div class="split">
+      <span style="color: var(--positive-text)">18% positive</span>
+      <span style="color: var(--neutral-text)">79% neutral</span>
+      <span style="color: var(--negative-text)">3% negative</span>
+    </div>
+    <div class="c">Tone of Prosus coverage</div>
+  </div>
+  <div class="tile">
+    <div class="k">Share of voice</div>
+    <div class="v">45%</div>
+    <div class="c">On-target Prosus articles vs Delivery Hero and Zalando articles</div>
+  </div>
+  <div class="tile">
+    <div class="k">Top outlet</div>
+    <div class="v small">MarketScreener</div>
+    <div class="c">Published the most Prosus articles (5)</div>
+  </div>
+</section>
+
+<h2>Coverage over time and by topic</h2>
+<div class="charts">
+  <figure>
+    <figcaption>Prosus articles per week, by tone</figcaption>
+    <svg viewBox="0 0 600 344" role="img" aria-label="Prosus articles per week, stacked by sentiment">
+      <rect class="positive" x="44" y="10" width="18" height="18" rx="3"/>
+      <text x="68" y="28" font-size="22">Positive</text>
+      <rect class="neutral" x="174" y="10" width="18" height="18" rx="3"/>
+      <text x="198" y="28" font-size="22">Neutral</text>
+      <rect class="negative" x="304" y="10" width="18" height="18" rx="3"/>
+      <text x="328" y="28" font-size="22">Negative</text>
+      <line class="axis" x1="44" x2="590" y1="274.0" y2="274.0"/>
+      <text class="muted" x="36" y="281.0" font-size="22" text-anchor="end">0</text>
+      <line class="axis" x1="44" x2="590" y1="204.0" y2="204.0"/>
+      <text class="muted" x="36" y="211.0" font-size="22" text-anchor="end">10</text>
+      <line class="axis" x1="44" x2="590" y1="134.0" y2="134.0"/>
+      <text class="muted" x="36" y="141.0" font-size="22" text-anchor="end">20</text>
+      <line class="axis" x1="44" x2="590" y1="64.0" y2="64.0"/>
+      <text class="muted" x="36" y="71.0" font-size="22" text-anchor="end">30</text>
+      <rect class="positive" x="77.2" y="253.0" width="70" height="21.0"><title>3 positive</title></rect>
+      <rect class="neutral" x="77.2" y="71.0" width="70" height="182.0"><title>26 neutral</title></rect>
+      <rect class="negative" x="77.2" y="64.0" width="70" height="7.0"><title>1 negative</title></rect>
+      <text x="112.2" y="58.0" font-size="22" font-weight="600" text-anchor="middle">30</text>
+      <text class="muted" x="112.2" y="300" font-size="22" text-anchor="middle">21 Sep</text>
+      <rect class="neutral" x="213.8" y="183.0" width="70" height="91.0"><title>13 neutral</title></rect>
+      <text x="248.8" y="177.0" font-size="22" font-weight="600" text-anchor="middle">13</text>
+      <text class="muted" x="248.8" y="300" font-size="22" text-anchor="middle">28 Sep</text>
+      <rect class="positive" x="350.2" y="211.0" width="70" height="63.0"><title>9 positive</title></rect>
+      <rect class="neutral" x="350.2" y="141.0" width="70" height="70.0"><title>10 neutral</title></rect>
+      <rect class="negative" x="350.2" y="134.0" width="70" height="7.0"><title>1 negative</title></rect>
+      <text x="385.2" y="128.0" font-size="22" font-weight="600" text-anchor="middle">20</text>
+      <text class="muted" x="385.2" y="300" font-size="22" text-anchor="middle">5 Oct</text>
+      <rect class="positive" x="486.8" y="260.0" width="70" height="14.0"><title>2 positive</title></rect>
+      <rect class="neutral" x="486.8" y="183.0" width="70" height="77.0"><title>11 neutral</title></rect>
+      <text x="521.8" y="177.0" font-size="22" font-weight="600" text-anchor="middle">13</text>
+      <text class="muted" x="521.8" y="300" font-size="22" text-anchor="middle">12 Oct</text>
+      <text class="muted" x="317.0" y="338" font-size="22" text-anchor="middle">Week starting (Monday)</text>
+    </svg>
+  </figure>
+  <figure>
+    <figcaption>What Prosus coverage is about</figcaption>
+    <svg viewBox="0 0 600 300" role="img" aria-label="Prosus articles by topic">
+      <text x="260" y="37.0" font-size="22" text-anchor="end">Ventures &amp; investments</text>
+<rect class="bar" x="270" y="16" width="280.0" height="28" rx="3"/>      <text x="558.0" y="37.0" font-size="22" font-weight="600">27</text>
+      <text x="260" y="77.0" font-size="22" text-anchor="end">AI</text>
+<rect class="bar" x="270" y="56" width="176.3" height="28" rx="3"/>      <text x="454.3" y="77.0" font-size="22" font-weight="600">17</text>
+      <text x="260" y="117.0" font-size="22" text-anchor="end">Results</text>
+<rect class="bar" x="270" y="96" width="124.4" height="28" rx="3"/>      <text x="402.4" y="117.0" font-size="22" font-weight="600">12</text>
+      <text x="260" y="157.0" font-size="22" text-anchor="end">Just Eat Takeaway</text>
+<rect class="bar" x="270" y="136" width="93.3" height="28" rx="3"/>      <text x="371.3" y="157.0" font-size="22" font-weight="600">9</text>
+      <text x="260" y="197.0" font-size="22" text-anchor="end">Governance &amp; regulation</text>
+<rect class="bar" x="270" y="176" width="72.6" height="28" rx="3"/>      <text x="350.6" y="197.0" font-size="22" font-weight="600">7</text>
+      <text x="260" y="237.0" font-size="22" text-anchor="end">Tencent stake</text>
+<rect class="bar" x="270" y="216" width="31.1" height="28" rx="3"/>      <text x="309.1" y="237.0" font-size="22" font-weight="600">3</text>
+      <text x="260" y="277.0" font-size="22" text-anchor="end">Other</text>
+<rect class="bar" x="270" y="256" width="10.4" height="28" rx="3"/>      <text x="288.4" y="277.0" font-size="22" font-weight="600">1</text>
+    </svg>
+  </figure>
+</div>
+<p class="note">57 of 133 collected Prosus rows are left out everywhere: their title or summary does not name Prosus, Naspers, Prosus Ventures, AI House, Toqan or Luminate.</p>
+
+<h2>Top Prosus stories</h2>
+<table class="latest">
+  <thead>
+    <tr><th class="d" scope="col">Date</th><th class="o" scope="col">Outlet</th><th class="h" scope="col">Headline</th><th class="s" scope="col">Sentiment</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="d"><time datetime="2026-10-06">6 Oct</time></td>
+      <td class="o">The Economic Times</td>
+      <td class="h"><a href="https://m.economictimes.com/tech/newsletters/morning-dispatch/elevenlabs-ceo-on-ai-slowdown-prosus-dials-up-fintech-bets/articleshow/134753709.cms" target="_blank" rel="noopener" title="ElevenLabs CEO on AI slowdown; Prosus dials up fintech bets">ElevenLabs CEO on AI slowdown; Prosus dials up fintech bets</a><span class="o2">The Economic Times · <span class="sent neutral">neutral</span></span></td>
+      <td class="s"><span class="sent neutral">neutral</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-09-30">30 Sep</time></td>
+      <td class="o">The Economic Times</td>
+      <td class="h"><a href="https://m.economictimes.com/tech/funding/arivihan-raises-10-million-from-prosus-accel-to-expand-ai-tutoring/articleshow/134570893.cms" target="_blank" rel="noopener" title="Arivihan raises $10 million from Prosus, Accel to expand AI tutoring">Arivihan raises $10 million from Prosus, Accel to expand AI tutoring</a><span class="o2">The Economic Times · <span class="sent neutral">neutral</span></span></td>
+      <td class="s"><span class="sent neutral">neutral</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-09-28">28 Sep</time></td>
+      <td class="o">The Economic Times</td>
+      <td class="h"><a href="https://m.economictimes.com/tech/startups/prosus-in-talks-to-invest-rs-150-crore-in-swiggy-instamart-challenger-bazaarnow/articleshow/134522154.cms" target="_blank" rel="noopener" title="Prosus in talks to invest Rs 150 crore in Swiggy Instamart challenger BazaarNow">Prosus in talks to invest Rs 150 crore in Swiggy Instamart challenger BazaarNow</a><span class="o2">The Economic Times · <span class="sent neutral">neutral</span></span></td>
+      <td class="s"><span class="sent neutral">neutral</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-09-22">22 Sep</time></td>
+      <td class="o">Het Financieele Dagblad</td>
+      <td class="h"><a href="https://fd.nl/tech-en-innovatie/1612860/prosus-haalt-techondernemer-nalden-binnen-voor-zijn-ai-plannen" target="_blank" rel="noopener" title="Prosus haalt techondernemer Nalden binnen voor zijn AI-plannen">Prosus haalt techondernemer Nalden binnen voor zijn AI-plannen</a><span class="o2">Het Financieele Dagblad · <span class="sent neutral">neutral</span></span></td>
+      <td class="s"><span class="sent neutral">neutral</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-10-15">15 Oct</time></td>
+      <td class="o">Business Standard</td>
+      <td class="h"><a href="https://www.business-standard.com/companies/news/prosus-ventures-leads-1-5-million-funding-in-space-startup-cosmochute-126101501727_1.html" target="_blank" rel="noopener" title="Prosus Ventures leads $1.5 million funding in space startup Cosmochute">Prosus Ventures leads $1.5 million funding in space startup Cosmochute</a><span class="o2">Business Standard · <span class="sent neutral">neutral</span></span></td>
+      <td class="s"><span class="sent neutral">neutral</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-10-14">14 Oct</time></td>
+      <td class="o">The Globe and Mail</td>
+      <td class="h"><a href="https://www.theglobeandmail.com/investing/markets/stocks/PROSF/pressreleases/7636330/prosus-advances-share-buyback-programme-with-eur83-5-million-repurchase/" target="_blank" rel="noopener" title="Prosus Advances Share Buyback Programme With €83.5 Million Repurchase">Prosus Advances Share Buyback Programme With €83.5 Million Repurchase</a><span class="o2">The Globe and Mail · <span class="sent neutral">neutral</span></span></td>
+      <td class="s"><span class="sent neutral">neutral</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-10-12">12 Oct</time></td>
+      <td class="o">Business Day</td>
+      <td class="h"><a href="https://www.businessday.co.za/companies/2026-10-12-news-analysis-how-ifoods-business-grew-beyond-food-delivery/" target="_blank" rel="noopener" title="NEWS ANALYSIS | iFood’s ecosystem hits the spot for Naspers CEO Fabricio Bloisi">NEWS ANALYSIS | iFood’s ecosystem hits the spot for Naspers CEO Fabricio Bloisi</a><span class="o2">Business Day · <span class="sent positive">positive</span></span></td>
+      <td class="s"><span class="sent positive">positive</span></td>
+    </tr>
+    <tr>
+      <td class="d"><time datetime="2026-10-08">8 Oct</time></td>
+      <td class="o">News24</td>
+      <td class="h"><a href="https://www.news24.com/business/companies/prosus-turns-the-tide-at-jet-as-ifood-fights-chinese-onslaught-20261008-0645" target="_blank" rel="noopener" title="Prosus turns the tide at JET as iFood fights Chinese onslaught">Prosus turns the tide at JET as iFood fights Chinese onslaught</a><span class="o2">News24 · <span class="sent positive">positive</span></span></td>
+      <td class="s"><span class="sent positive">positive</span></td>
+    </tr>
+  </tbody>
+</table>
+<p class="note">8 stories, each shown once: top-tier outlets first (FT, Reuters, Bloomberg, FD, NRC, Economic Times), then national and trade press, newest first within each. Headlines open the original article.</p>
+</main>
+
+<footer>
+  <h2>How this page is made</h2>
+  <svg class="diagram" viewBox="0 0 500 140" role="img" aria-label="Pipeline: Collect, Tag, Review, Page">
+    <rect class="box" x="14" y="10" width="100" height="44" rx="8"/>
+    <text x="64" y="38" font-size="17" font-weight="600" text-anchor="middle">Collect</text>
+    <text class="muted" x="64" y="78" font-size="17" text-anchor="middle">RSS +</text>
+    <text class="muted" x="64" y="99" font-size="17" text-anchor="middle">Google News</text>
+    <line class="link" x1="116" y1="32" x2="130" y2="32"/>
+    <polygon class="arrow" points="136,32 129,27 129,37"/>
+    <rect class="box" x="138" y="10" width="100" height="44" rx="8"/>
+    <text x="188" y="38" font-size="17" font-weight="600" text-anchor="middle">Tag</text>
+    <text class="muted" x="188" y="78" font-size="17" text-anchor="middle">Claude</text>
+    <text class="muted" x="188" y="99" font-size="17" text-anchor="middle">classifies</text>
+    <line class="link" x1="240" y1="32" x2="254" y2="32"/>
+    <polygon class="arrow" points="260,32 253,27 253,37"/>
+    <rect class="box" x="262" y="10" width="100" height="44" rx="8"/>
+    <text x="312" y="38" font-size="17" font-weight="600" text-anchor="middle">Review</text>
+    <text class="muted" x="312" y="78" font-size="17" text-anchor="middle">Human</text>
+    <text class="muted" x="312" y="99" font-size="17" text-anchor="middle">spot-checks</text>
+    <text class="muted" x="312" y="120" font-size="17" text-anchor="middle">tags</text>
+    <line class="link" x1="364" y1="32" x2="378" y2="32"/>
+    <polygon class="arrow" points="384,32 377,27 377,37"/>
+    <rect class="box" x="386" y="10" width="100" height="44" rx="8"/>
+    <text x="436" y="38" font-size="17" font-weight="600" text-anchor="middle">Page</text>
+    <text class="muted" x="436" y="78" font-size="17" text-anchor="middle">Static</text>
+    <text class="muted" x="436" y="99" font-size="17" text-anchor="middle">HTML</text>
+  </svg>
+
+  <p class="status">Running cost: USD 0.74 over the last 30 days (AI tagging, from the run log)</p>
+
+  <h2>What a paid media-monitoring licence (Meltwater, Cision) adds</h2>
+  <ul class="adds">
+    <li>Paywalled press</li>
+    <li>Print</li>
+    <li>Broadcast</li>
+    <li>Audience figures</li>
+    <li>Journalist database</li>
+  </ul>
+
+  <p><a href="https://github.com/jacknohairwax/prosus-media-demo">Source code on GitHub</a></p>
+</footer>
+</body>
+</html>

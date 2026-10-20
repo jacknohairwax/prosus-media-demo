@@ -7,3 +7,6 @@ PY="${PYTHON:-python3}"
 "$PY" classify.py
 "$PY" stories.py
 "$PY" build_page.py
+
+# GitHub Pages serves from /docs
+cp site/index.html docs/index.html
