@@ -77,7 +77,8 @@ def main():
     p.feed(page)
     hrefs = {l["href"] for l in p.links}
     urls = set(re.findall(r"https?://[^\s\"'<>)]+", page))
-    other = sorted(u for u in urls if u not in hrefs)
+    ALLOWED = {"https://github.com/jacknohairwax/prosus-media-demo"}  # repo link, per brief footer
+    other = sorted(u for u in urls if u not in hrefs and u not in ALLOWED)
     print(f"external URLs other than article hrefs: {len(other)} {other}")
     if other:
         fails.append("non-article URLs")
