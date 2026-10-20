@@ -227,7 +227,7 @@ ul.adds { margin: 0; padding-left: 20px; }
     {% endfor %}
   </svg>
 
-  <p class="status">{{ accuracy }}</p>
+  {% if accuracy %}<p class="status">{{ accuracy }}</p>{% endif %}
   <p class="status">{{ cost }}</p>
 
   <h2>What a paid media-monitoring licence (Meltwater, Cision) adds</h2>
@@ -239,7 +239,7 @@ ul.adds { margin: 0; padding-left: 20px; }
     <li>Journalist database</li>
   </ul>
 
-  <p><a href="#">Source code (link added on publish)</a></p>
+  <p><a href="https://github.com/jacknohairwax/prosus-media-demo">Source code on GitHub</a></p>
 </footer>
 </body>
 </html>

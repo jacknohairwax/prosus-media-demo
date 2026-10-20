@@ -224,7 +224,7 @@ def accuracy_line():
             text = " · ".join(l.strip() for l in p.read_text(encoding="utf-8").splitlines() if l.strip())
             if text:
                 return f"Accuracy: {text}"
-    return "Accuracy: pending Jack's review of 50 labelled rows"
+    return ""
 
 
 def cost_line(today):
