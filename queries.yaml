@@ -52,20 +52,6 @@ executives:                       # key = `entity` value in data/articles.csv
     queries:
       - {id: name, q: '"Fabricio Bloisi"', lang: any}
       - {id: prosus, q: 'Bloisi Prosus', lang: any}
-  sgourdos:
-    name: Basil Sgourdos
-    role: 'former CFO; Nico Marais CFO (interim from Dec 2024, appointed 29 Apr 2025)'
-    role_source: https://www.prosus.com/leadership
-    queries:                      # anchored to Prosus/Naspers because he has left
-      - {id: prosus, q: '"Basil Sgourdos" Prosus', lang: any}
-      - {id: naspers, q: '"Basil Sgourdos" Naspers', lang: any}
-  kolek:
-    name: Patrick Kolek
-    role: former Group COO Naspers and Prosus (Jul 2016 - Mar 2023), then senior advisor; now CEO Boats Group
-    role_source: https://people.equilar.com/bio/person/pat-kolek-boats-group/13126384
-    queries:                      # anchored: the bare name returns Boats Group news
-      - {id: prosus, q: '"Patrick Kolek" Prosus', lang: any}
-      - {id: naspers, q: '"Patrick Kolek" Naspers', lang: any}
   beinat:
     name: Euro Beinat
     role: Global Head AI and Data Science (named chief AI officer in Sept 2026 news)

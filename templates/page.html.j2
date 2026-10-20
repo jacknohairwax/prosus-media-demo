@@ -65,7 +65,7 @@ svg .arrow { fill: var(--muted); }
 .latest th, .latest td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
 .latest th { font-size: .78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
 .latest .d { width: 4.6rem; white-space: nowrap; }
-.latest .o { width: 11rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.latest .o { width: 12rem; overflow-wrap: anywhere; }
 .latest .s { width: 6.6rem; white-space: nowrap; }
 .latest .h a, .latest .o2 { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .latest .o2 { display: none; color: var(--muted); font-size: .8rem; }
@@ -96,9 +96,14 @@ ul.adds { margin: 0; padding-left: 20px; }
 
 <section class="tiles" aria-label="Key numbers">
   <div class="tile">
-    <div class="k">Articles found</div>
-    <div class="v">{{ n_prosus if n_prosus else "No articles" }}</div>
-    <div class="c">Prosus articles; peers counted separately</div>
+    <div class="k">Prosus stories</div>
+    {% if n_prosus %}
+    <div class="v" id="n-stories">{{ n_stories }}</div>
+    <div class="c" id="n-articles">{{ n_prosus }} articles across {{ n_stories }} stories</div>
+    {% else %}
+    <div class="v small">No articles</div>
+    {% endif %}
+    <div class="c">Excludes {{ n_off }} off-target rows (see the note below the charts)</div>
   </div>
   <div class="tile">
     <div class="k">Sentiment split</div>
@@ -116,7 +121,7 @@ ul.adds { margin: 0; padding-left: 20px; }
   <div class="tile">
     <div class="k">Share of voice</div>
     <div class="v">{{ (sov ~ "%") if sov is not none else "No articles" }}</div>
-    <div class="c">Prosus share of all articles about Prosus, Delivery Hero and Zalando</div>
+    <div class="c">On-target Prosus articles vs Delivery Hero and Zalando articles</div>
   </div>
   <div class="tile">
     <div class="k">Top outlet</div>
@@ -175,10 +180,13 @@ ul.adds { margin: 0; padding-left: 20px; }
   </figure>
 </div>
 {% if n_excluded %}
-<p class="note">{{ n_excluded }} of {{ n_prosus }} Prosus rows excluded from charts: missing or unrecognised sentiment, topic or date.</p>
+<p class="note">{{ n_excluded }} of {{ n_all }} Prosus rows excluded from charts: missing or unrecognised sentiment, topic or date.</p>
+{% endif %}
+{% if n_off %}
+<p class="note">{{ n_off }} of {{ n_all }} collected Prosus rows are left out everywhere: their title or summary does not name Prosus, Naspers, Prosus Ventures, AI House, Toqan or Luminate.</p>
 {% endif %}
 
-<h2>Latest Prosus coverage</h2>
+<h2>Top Prosus stories</h2>
 {% if latest %}
 <table class="latest">
   <thead>
@@ -195,7 +203,7 @@ ul.adds { margin: 0; padding-left: 20px; }
     {% endfor %}
   </tbody>
 </table>
-<p class="note">The {{ latest | length }} most recent Prosus articles. Headlines open the original article.</p>
+<p class="note">{{ latest | length }} stories, each shown once: top-tier outlets first (FT, Reuters, Bloomberg, FD, NRC, Economic Times), then national and trade press, newest first within each. Headlines open the original article.</p>
 {% else %}
 <p class="empty">No articles</p>
 {% endif %}

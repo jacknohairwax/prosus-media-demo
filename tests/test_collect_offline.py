@@ -139,7 +139,7 @@ def google_handler(outlet_for, fail_page=None, block_at=None, counter=None):
 class TestPlan(unittest.TestCase):
     def test_plan_matches_feeds_yaml(self):
         plan, skipped = collect.build_plan(CFG)
-        self.assertEqual(len(plan), 122)
+        self.assertEqual(len(plan), 114)   # 122 - 8: sgourdos, kolek removed (2 queries x 2 editions each)
         self.assertEqual(len(skipped), 6)
         feeds = CFG["gn_feeds"]
         for s in skipped:
@@ -159,7 +159,7 @@ class TestPlan(unittest.TestCase):
             self.assertEqual(qs["q"], s["q"] + " when:30d")
             ed = CFG["editions"][s["edition"]]
             self.assertEqual((qs["hl"], qs["gl"], qs["ceid"]), (ed["hl"], ed["gl"], ed["ceid"]))
-        self.assertEqual(len({s["url"] for s in plan}), 122)
+        self.assertEqual(len({s["url"] for s in plan}), 114)
 
     def test_rss_usable(self):
         names = [f["name"] for f in collect.usable_rss(CFG)]
@@ -265,7 +265,7 @@ class TestEntityTopic(unittest.TestCase):
         self.assertEqual(a([t_ai, t_v], "prosus", self.order), ("company", "", True))
         self.assertEqual(a([peer, bl], "peer_zalando", self.order), ("company", "", False))
         self.assertEqual(a([], "prosus", self.order), ("", "", False))
-        self.assertEqual(self.order, ["bloisi", "sgourdos", "kolek", "beinat"])
+        self.assertEqual(self.order, ["bloisi", "beinat"])
 
 
 class TestDecoding(unittest.TestCase):

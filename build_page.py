@@ -1,6 +1,8 @@
 """Render site/index.html from the tagged articles CSV.
 
 Input order: data/articles.csv, else data/sample_articles.csv (override with --data).
+Prosus set for tiles, charts and table = valid rows AND on_target == yes (stories.py columns;
+computed here when the input lacks them, e.g. the sample CSV). Table = canonical rows only.
 Runtime deps: stdlib, pandas, jinja2.
 """
 import argparse
@@ -10,6 +12,8 @@ from pathlib import Path
 
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+import stories
 
 ROOT = Path(__file__).resolve().parent
 DATA_CANDIDATES = [ROOT / "data" / "articles.csv", ROOT / "data" / "sample_articles.csv"]
@@ -41,6 +45,8 @@ def pick_data(cli_path):
 
 def load(path):
     df = pd.read_csv(path, keep_default_na=False, dtype=str)
+    if not set(stories.NEW_COLS) <= set(df.columns):   # e.g. sample CSV: same rules as stories.py
+        df = stories.assign(df[[c for c in df.columns if c not in stories.NEW_COLS]])
     for col in ("topic", "sentiment", "company"):
         df[col] = df[col].str.strip().str.lower()
     df["published_dt"] = pd.to_datetime(df["published"], errors="coerce")
@@ -67,10 +73,18 @@ def largest_remainder(counts, total):
     return out
 
 
+def valid_prosus(df):
+    """ONE valid set for tiles, charts and table: valid Prosus rows that name Prosus."""
+    prosus = df[df["company"] == "prosus"]
+    valid = (prosus["sentiment"].isin(SENTIMENTS) & prosus["topic"].isin(TOPIC_LABELS)
+             & prosus["published_dt"].notna())
+    return prosus[valid & (prosus["on_target"] == "yes")]
+
+
 def compute(df):
     prosus = df[df["company"] == "prosus"]
     peers = df[df["company"].str.startswith("peer_")]
-    n_p, n_peer = len(prosus), len(peers)
+    n_all, n_peer = len(prosus), len(peers)
 
     dates = prosus["published_dt"].dropna()
     if len(dates):
@@ -82,18 +96,18 @@ def compute(df):
     else:
         span = "no dates yet"
 
-    valid = (prosus["sentiment"].isin(SENTIMENTS) & prosus["topic"].isin(TOPIC_LABELS)
-             & prosus["published_dt"].notna())
-    ok = prosus[valid]  # ONE valid set: charts and sentiment split all use it
-    n_excluded = n_p - len(ok)
-    n_valid = len(ok)
+    ok = valid_prosus(df)  # ONE set: tiles, charts and table all use it
+    n_off = int((prosus["on_target"] != "yes").sum())
+    n_excluded = n_all - n_off - len(ok)   # on-target rows with bad sentiment, topic or date
+    n_valid = n_p = len(ok)
+    n_stories = int((ok["is_canonical"] == "yes").sum())
     sent_counts = {s: int((ok["sentiment"] == s).sum()) for s in SENTIMENTS}
     sent_pct = largest_remainder(sent_counts, n_valid)
 
     sov = pct(n_p, n_p + n_peer)
 
     if n_p:
-        oc = prosus["outlet"].value_counts()
+        oc = ok["outlet"].value_counts()
         top = sorted(oc.items(), key=lambda kv: (-kv[1], kv[0]))[0]
         top_outlet = {"name": top[0], "count": int(top[1])}
     else:
@@ -102,8 +116,11 @@ def compute(df):
     return {
         "span": span,
         "n_excluded": n_excluded,
+        "n_off": n_off,
+        "n_all": n_all,
         "n_valid": n_valid,
         "n_prosus": n_p,
+        "n_stories": n_stories,
         "n_peers": n_peer,
         "sent_counts": sent_counts,
         "sent_pct": sent_pct,
@@ -111,7 +128,7 @@ def compute(df):
         "top_outlet": top_outlet,
         "weekly": weekly_chart(ok),
         "topics": topic_chart(ok),
-        "latest": latest_rows(ok),
+        "latest": latest_rows(ok[ok["is_canonical"] == "yes"]),
     }
 
 
@@ -182,9 +199,18 @@ def topic_chart(prosus):
 
 # ---------- latest coverage table ----------
 
+TIER_ORDER = {"tier1": 1, "tier2": 2, "tier3": 3}
+
+
+def table_order(rows):
+    """outlet_tier (tier1 first, unknown last), then published desc, then id asc."""
+    return rows.assign(_tier=rows["outlet_tier"].map(TIER_ORDER).fillna(9)).sort_values(
+        ["_tier", "published_dt", "id"], ascending=[True, False, True], kind="stable")
+
+
 def latest_rows(prosus, n=8):
-    """Most recent valid Prosus rows: published desc, then id asc for a stable order."""
-    p = prosus.sort_values("id").sort_values("published_dt", ascending=False, kind="stable").head(n)
+    """Canonical valid on-target Prosus rows in table_order; the first n."""
+    p = table_order(prosus).head(n)
     return [{"date": fmt_day(r.published_dt), "iso": r.published_dt.strftime("%Y-%m-%d"),
              "outlet": r.outlet, "title": r.title, "url": r.url, "sentiment": r.sentiment}
             for r in p.itertuples()]

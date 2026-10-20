@@ -10,3 +10,4 @@ date,step,rows,tokens_in,tokens_out,usd
 2026-10-19,classify,1,1811,58,0.0042
 2026-10-19,collect,226,0,0,0.0000
 2026-10-19,classify,226,53874,12103,0.2288
+2026-10-20,classify_sentiment,226,30851,4260,0.1043
